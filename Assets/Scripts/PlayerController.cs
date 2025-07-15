@@ -14,7 +14,7 @@ public class NewBehaviourScript : MonoBehaviour
             Debug.Log("move right");
         } else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("move right");
+            Debug.Log("move left");
         }
 
 

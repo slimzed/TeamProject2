@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private float enemyMovementSpeed = 2f;
     [Tooltip("-1 for left, 1 for right")]
-    [SerializeField] private int moveDir = -1;
+    [SerializeField] public int moveDir = -1;
 
     private void Update()
     {
@@ -15,13 +15,12 @@ public class EnemyController : MonoBehaviour
 
     private Vector3 CalcMovement()
     {
-
-        Vector3 movement = new Vector3(gameObject.transform.position.x + enemyMovementSpeed * moveDir * Time.deltaTime, gameObject.transform.position.y);
-
-        return movement;
+        float horizontalDisplacement = enemyMovementSpeed * moveDir * Time.deltaTime;
+        return new Vector3(horizontalDisplacement, 0, 0);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("collided");
         if (collision.transform.CompareTag("Player"))
         {
             moveDir = 0; // stops the object from moving when it collides with the player 
