@@ -7,12 +7,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [Tooltip("-1 if its going left, 1 if its going to the right")]
     [SerializeField] private int moveDir = -1;
+    [SerializeField] private float startTime = 2f;
 
 
     private void Start()
     {
         Debug.Log("started");
-        Invoke("SpawnEnemyPrefab", 2f);
+        InvokeRepeating("SpawnEnemyPrefab", startTime, 5f);
     }
 
 
