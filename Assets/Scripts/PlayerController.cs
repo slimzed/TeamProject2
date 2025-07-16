@@ -27,9 +27,11 @@ public class NewBehaviourScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             isRight = true;
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
         } else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             isRight = false;
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
         }
 
             collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
