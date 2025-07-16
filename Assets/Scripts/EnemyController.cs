@@ -2,12 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType
+{
+    Weak,
+    Normal,
+    Elite
+}
+
+
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] private EnemyType enemyType;
+    
+    
     [SerializeField] private float enemyMovementSpeed = 2f;
     [Tooltip("-1 for left, 1 for right")]
     [SerializeField] public int moveDir = -1;
     [SerializeField] private int enemyHealth = 5;
+
+
+    // change from enemy to enemy
+    private KeyCode[] requiredSequence; 
+
+    private SpriteRenderer spriteRenderer;
+
+    public KeyCode[] ComboSequence => requiredSequence; // creates a public variable that just inherits from the requiredSequence private variable
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        InitializeEnemyCombos(enemyType); // enemy type is set within the editor
+
+    }
 
     private void Update()
     {
@@ -26,14 +52,30 @@ public class EnemyController : MonoBehaviour
             moveDir = 0; // stops the object from moving when it collides with the player 
         }
     }
+    private void InitializeEnemyCombos(EnemyType enemyType)
+    {
+        switch (enemyType) 
+        {
+            case EnemyType.Weak:
+                requiredSequence = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2 };
+                spriteRenderer.color = Color.gray;
+                break;
+            case EnemyType.Normal:
+                requiredSequence = new KeyCode[] { KeyCode.Alpha2, KeyCode.Alpha3 };
+                spriteRenderer.color = Color.red;
+                break;
+            case EnemyType.Elite:
+                requiredSequence = new KeyCode[] { KeyCode.Alpha3, KeyCode.Alpha1, KeyCode.Alpha2 };
+                spriteRenderer.color = Color.blue;
+                break;
+        }
+    }
     public void KillEnemy()
     {
         Destroy(gameObject);
     }
 
 
-    private void DestroyObj()
-    {
-        Destroy(gameObject);
-    }
+
+
 }

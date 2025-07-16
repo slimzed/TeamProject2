@@ -9,7 +9,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private int medAttackDamage = 2;
     [SerializeField] private int lowAttackDamage = 1;
 
-    private string[] comboSequence1 = { "Alpha1", "Alpha2", "Alpha3" };
+    private KeyCode[] comboSequence = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3};
     private int currentComboIndex = 0;
     [SerializeField] private float comboTime = 0.5f;
     private float comboTimer = 0;
@@ -70,9 +70,9 @@ public class NewBehaviourScript : MonoBehaviour
             if (currentInputKey != KeyCode.None)
             {
                 KeyCode requiredKey = KeyCode.None;
-                if (currentComboIndex < comboSequence1.Length)
+                if (currentComboIndex < comboSequence.Length)
                 {
-                    requiredKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), comboSequence1[currentComboIndex]);
+                    requiredKey = comboSequence[currentComboIndex];
                 }
 
                 if (currentInputKey == requiredKey)
@@ -82,7 +82,7 @@ public class NewBehaviourScript : MonoBehaviour
                     comboTimer = comboTime;
                     lastAttackTime = Time.time;
 
-                    if (currentComboIndex == comboSequence1.Length)
+                    if (currentComboIndex == comboSequence.Length)
                     {
                         Debug.Log("Full combo executed! Killing enemy");
                         currentEnemy.KillEnemy();
@@ -108,6 +108,7 @@ public class NewBehaviourScript : MonoBehaviour
         if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
         {
             collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
+            comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
         }
         
     }

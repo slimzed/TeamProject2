@@ -47,3 +47,5 @@ MonoBehaviour:
   enemyPrefab: {fileID: 3425266481335760969, guid: f33d4dd8f0b152b4e9d95ae46ae16217, type: 3}
   moveDir: -1
   startTime: 0
+  spawnOnBeatInterval: 1
+  isMainSpawner: 1

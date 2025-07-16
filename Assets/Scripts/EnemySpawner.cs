@@ -11,18 +11,33 @@ public class EnemySpawner : MonoBehaviour
     
     
     
-    [SerializeField] private float startTime = 2f;
-    [SerializeField] private float beatTime = 5f;
+    [SerializeField] private int startTime = 0;
+    [SerializeField] private int spawnOnBeatInterval = 1;
+
+    [SerializeField] private bool isMainSpawner;
 
 
     private void Start()
     {
         Debug.Log("started");
-        InvokeRepeating("SpawnEnemyPrefab", startTime, beatTime);
+        AudioManager.OnBeat += HandleBeat;
     }
     public void CancelSpawn()
     {
         CancelInvoke("SpawnEnemyPrefab");
+    }
+    private void HandleBeat(int beatNumber, bool isFirstSpawner)
+    {
+        if (beatNumber >= startTime && (beatNumber - startTime) % spawnOnBeatInterval == 0)
+        {
+            if (isMainSpawner && isFirstSpawner)
+            {
+                SpawnEnemyPrefab();
+            } else if (!isMainSpawner && !isFirstSpawner)
+            {
+                SpawnEnemyPrefab();
+            }
+        }
     }
 
 
