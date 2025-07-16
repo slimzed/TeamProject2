@@ -59,10 +59,24 @@ public class NewBehaviourScript : MonoBehaviour
             ResetCombo();
         }
 
+        ComboDetectionFunction();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
+        {
+            collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
+            comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
+        }
+        
+    }
+    private void ComboDetectionFunction() 
+    {
         if (currentEnemy != null && Time.time >= lastAttackTime + highAttackCooldown)
         {
             KeyCode currentInputKey = KeyCode.None;
-            
+
             if (Input.GetKeyDown(KeyCode.Alpha1)) currentInputKey = KeyCode.Alpha1;
             else if (Input.GetKeyDown(KeyCode.Alpha2)) currentInputKey = KeyCode.Alpha2;
             else if (Input.GetKeyDown(KeyCode.Alpha3)) currentInputKey = KeyCode.Alpha3;
@@ -98,19 +112,7 @@ public class NewBehaviourScript : MonoBehaviour
                     ScoreManager.Instance.AddToScore(-5);
                 }
             }
-        } else
-        {
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
-        {
-            collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
-            comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
-        }
-        
     }
 
     private void ResetCombo()

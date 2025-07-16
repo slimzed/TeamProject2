@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource audioSource;
+    private AudioSource audioSource;
     public SongBeatData songBeatData; // this handles the location of beats n shi
 
     private int nextIndex;
@@ -18,21 +18,25 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         audioSource.clip = songBeatData.songClip;
+        audioSource.Play();
         songTime = audioSource.clip.length;
+
         nextIndex = 0;
     }
 
     private void Update()
     {
         Debug.Log(nextIndex);
+        if (nextIndex >= songBeatData.beats.Count) { OnGameOver?.Invoke(); return; }
         if (Time.time >= songBeatData.beats[nextIndex].time) // checks if the time is greater than the next beat index
         {
             bool isFirstSpawner = nextIndex % 2 == 0; // basically just alternates the bool depending on odd or even beats 
             OnBeat?.Invoke(songBeatData.beats[nextIndex].beatNumber, isFirstSpawner);
             nextIndex++;
         }
-        lastBeatTime = Time.time;
+            lastBeatTime = Time.time;
     }
 
 
