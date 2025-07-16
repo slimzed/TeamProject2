@@ -26,16 +26,9 @@ public class EnemyController : MonoBehaviour
             moveDir = 0; // stops the object from moving when it collides with the player 
         }
     }
-    public void RemoveHealth(int health)
+    public void KillEnemy()
     {
-        enemyHealth-=health;
-        Debug.Log(enemyHealth);
-        if (enemyHealth <= 0)
-        {
-            Destroy(gameObject);
-
-            // call the stat tracker singleton to add score.
-        }
+        Destroy(gameObject);
     }
 
 
