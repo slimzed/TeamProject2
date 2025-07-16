@@ -37,9 +37,11 @@ public class EnemyController : MonoBehaviour
         if (moveDir == 1)
         {
             midInput = KeyCode.LeftArrow;
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
         } else if (moveDir == -1)
         {
             midInput = KeyCode.RightArrow;
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
         Debug.Log(midInput);
         InitializeEnemyCombos(enemyType); // enemy type is set within the editor
