@@ -151,7 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2aa23b55b9e36e419f64e6b1b227310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Score: 0
   scoreText: {fileID: 2068622453}
 --- !u!4 &297460232
 Transform:
@@ -700,8 +699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123c80abe4b3a4a47aec81bbf39d61d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1687162109}
-  songBeatData: {fileID: 11400000, guid: fc8dccb2bf2d3f344854c464da403e15, type: 2}
+  songBeatData: {fileID: 11400000, guid: ae4e001b339c86148bd656c0f2707426, type: 2}
 --- !u!82 &1687162109
 AudioSource:
   m_ObjectHideFlags: 0
