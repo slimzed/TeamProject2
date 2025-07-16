@@ -72,6 +72,7 @@ public class NewBehaviourScript : MonoBehaviour
 
                 collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
             comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
+
         }
         
     }
@@ -99,7 +100,8 @@ public class NewBehaviourScript : MonoBehaviour
             KeyCode currentInputKey = KeyCode.None;
 
             if (Input.GetKeyDown(KeyCode.DownArrow)) currentInputKey = KeyCode.DownArrow;
-            else if (Input.GetKeyDown(KeyCode.None)) currentInputKey = KeyCode.None;
+            else if (Input.GetKeyDown(KeyCode.RightArrow)) currentInputKey = KeyCode.RightArrow;
+            else if (Input.GetKeyDown(KeyCode.LeftArrow)) currentInputKey = KeyCode.LeftArrow;
             else if (Input.GetKeyDown(KeyCode.UpArrow)) currentInputKey = KeyCode.UpArrow;
 
 

@@ -51,19 +51,18 @@ public class EnemySpawner : MonoBehaviour
     {
 
         int enemySelection = Random.Range(0, 100);
-        Debug.Log(enemySelection);
         GameObject enemy;
         
-        if (enemySelection <= 10)
-        {
-           enemy = Instantiate(enemyPrefabElite, gameObject.transform.position, Quaternion.identity);
-        } else if (enemySelection > 10 && enemySelection <= 30)
-        {
+        //if (enemySelection <= 10)
+        //{
+        //   enemy = Instantiate(enemyPrefabElite, gameObject.transform.position, Quaternion.identity);
+        //} else if (enemySelection > 10 && enemySelection <= 30)
+        //{
             enemy = Instantiate(enemyPrefabNormal, gameObject.transform.position, Quaternion.identity);
-        } else
-        {
-            enemy = Instantiate(enemyPrefabWeak, gameObject.transform.position, Quaternion.identity);
-        }
+        //} else
+        //{
+        //    enemy = Instantiate(enemyPrefabWeak, gameObject.transform.position, Quaternion.identity);
+        //}
 
         enemy.transform.SetParent(transform);
         

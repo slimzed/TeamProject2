@@ -25,13 +25,23 @@ public class EnemyController : MonoBehaviour
 
 
     // change from enemy to enemy
-    private KeyCode[] requiredSequence; 
+    private KeyCode[] requiredSequence;
+    private KeyCode midInput;
 
 
     public KeyCode[] ComboSequence => requiredSequence; // creates a public variable that just inherits from the requiredSequence private variable
 
-    private void Awake()
+    private void Start()
     {
+        Debug.Log(moveDir);
+        if (moveDir == 1)
+        {
+            midInput = KeyCode.LeftArrow;
+        } else if (moveDir == -1)
+        {
+            midInput = KeyCode.RightArrow;
+        }
+        Debug.Log(midInput);
         InitializeEnemyCombos(enemyType); // enemy type is set within the editor
 
     }
@@ -61,10 +71,10 @@ public class EnemyController : MonoBehaviour
                 requiredSequence = new KeyCode[] { KeyCode.DownArrow, KeyCode.UpArrow };
                 break;
             case EnemyType.Normal:
-                requiredSequence = new KeyCode[] { KeyCode.RightArrow, KeyCode.UpArrow };
+                requiredSequence = new KeyCode[] { midInput, KeyCode.UpArrow };
                 break;
             case EnemyType.Elite:
-                requiredSequence = new KeyCode[] { KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.RightArrow };
+                requiredSequence = new KeyCode[] { KeyCode.UpArrow, KeyCode.DownArrow, midInput };
                 break;
         }
     }
