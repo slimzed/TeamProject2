@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18f7dccbc6ee804d91a3ca884895fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3425266481335760969, guid: f33d4dd8f0b152b4e9d95ae46ae16217, type: 3}
+  enemyPrefabWeak: {fileID: 3425266481335760969, guid: f33d4dd8f0b152b4e9d95ae46ae16217, type: 3}
+  enemyPrefabNormal: {fileID: 3425266481335760969, guid: dec14c0a0256c66468bd48547881f152, type: 3}
+  enemyPrefabElite: {fileID: 3425266481335760969, guid: d1dc81f874e03e04e8088225476233bc, type: 3}
   moveDir: -1
   startTime: 0
   spawnOnBeatInterval: 1
