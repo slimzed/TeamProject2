@@ -24,13 +24,11 @@ public class EnemyController : MonoBehaviour
     // change from enemy to enemy
     private KeyCode[] requiredSequence; 
 
-    private SpriteRenderer spriteRenderer;
 
     public KeyCode[] ComboSequence => requiredSequence; // creates a public variable that just inherits from the requiredSequence private variable
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         InitializeEnemyCombos(enemyType); // enemy type is set within the editor
 
     }
@@ -58,15 +56,12 @@ public class EnemyController : MonoBehaviour
         {
             case EnemyType.Weak:
                 requiredSequence = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2 };
-                spriteRenderer.color = Color.gray;
                 break;
             case EnemyType.Normal:
                 requiredSequence = new KeyCode[] { KeyCode.Alpha2, KeyCode.Alpha3 };
-                spriteRenderer.color = Color.red;
                 break;
             case EnemyType.Elite:
                 requiredSequence = new KeyCode[] { KeyCode.Alpha3, KeyCode.Alpha1, KeyCode.Alpha2 };
-                spriteRenderer.color = Color.blue;
                 break;
         }
     }

@@ -96,6 +96,8 @@ public class NewBehaviourScript : MonoBehaviour
                     comboTimer = comboTime;
                     lastAttackTime = Time.time;
 
+                    currentEnemy.GetComponent<SpriteRenderer>().color = Color.red;
+
                     if (currentComboIndex == comboSequence.Length)
                     {
                         Debug.Log("Full combo executed! Killing enemy");

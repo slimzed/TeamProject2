@@ -6,7 +6,20 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private int Score = 0;
+    private int scoreValue;
+    public int Score
+    {
+        get
+        {
+            return scoreValue;
+        }
+        private set
+        {
+            scoreValue = value;
+            UpdateUI();
+        }
+    }
+
     [SerializeField] private TextMeshProUGUI scoreText;
     
     public static ScoreManager Instance { get; private set; }
@@ -29,10 +42,7 @@ public class ScoreManager : MonoBehaviour
         Score += score;
         UpdateUI();
     }
-    public int GetScore()
-    {
-        return Score;
-    }
+
     private void UpdateUI()
     {
         scoreText.text = "Score: " + Score.ToString();
