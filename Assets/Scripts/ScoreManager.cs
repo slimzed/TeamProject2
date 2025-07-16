@@ -6,24 +6,23 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    private int scoreValue;
+    public static ScoreManager Instance { get; private set; }
+    private int _score;
     public int Score
     {
         get
         {
-            return scoreValue;
+            return _score;
         }
         private set
         {
-            scoreValue = value;
+            _score = value;
             UpdateUI();
         }
     }
 
     [SerializeField] private TextMeshProUGUI scoreText;
     
-    public static ScoreManager Instance { get; private set; }
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,11 +39,11 @@ public class ScoreManager : MonoBehaviour
     public void AddToScore(int score)
     {
         Score += score;
-        UpdateUI();
     }
 
     private void UpdateUI()
     {
+        Debug.Log("ui updated");
         scoreText.text = "Score: " + Score.ToString();
     }
 }

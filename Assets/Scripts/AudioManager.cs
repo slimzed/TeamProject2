@@ -28,7 +28,6 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(nextIndex);
         if (nextIndex >= songBeatData.beats.Count) { OnGameOver?.Invoke(); return; }
         if (Time.time >= songBeatData.beats[nextIndex].time) // checks if the time is greater than the next beat index
         {

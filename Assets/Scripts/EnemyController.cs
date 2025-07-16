@@ -13,6 +13,9 @@ public enum EnemyType
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyType enemyType;
+
+
+
     
     
     [SerializeField] private float enemyMovementSpeed = 2f;

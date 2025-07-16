@@ -30,15 +30,6 @@ public class NewBehaviourScript : MonoBehaviour
             Debug.Log("Move left");
         }
 
-        if (currentComboIndex > 0)
-        {
-            comboTimer -= Time.deltaTime;
-            if (comboTimer <= 0)
-            {
-                Debug.Log("Combo failed! Time ran out.");
-                ResetCombo();
-            }
-        }
 
         collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
 
@@ -73,6 +64,23 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void ComboDetectionFunction() 
     {
+        Color defaultColor = Color.white;
+        if (currentEnemy != null)
+        {
+            defaultColor = currentEnemy.GetComponent<SpriteRenderer>().color;
+        }
+
+            if (currentComboIndex > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                Debug.Log("Combo failed! Time ran out.");
+                currentEnemy.GetComponent<SpriteRenderer>().color = defaultColor;
+                ResetCombo();
+            }
+        }
+
         if (currentEnemy != null && Time.time >= lastAttackTime + highAttackCooldown)
         {
             KeyCode currentInputKey = KeyCode.None;
@@ -110,6 +118,7 @@ public class NewBehaviourScript : MonoBehaviour
                 else
                 {
                     Debug.Log("combo failed");
+                    currentEnemy.GetComponent<SpriteRenderer>().color = defaultColor;
                     ResetCombo();
                     ScoreManager.Instance.AddToScore(-5);
                 }
