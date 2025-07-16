@@ -58,13 +58,13 @@ public class EnemyController : MonoBehaviour
         switch (enemyType) 
         {
             case EnemyType.Weak:
-                requiredSequence = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2 };
+                requiredSequence = new KeyCode[] { KeyCode.DownArrow, KeyCode.UpArrow };
                 break;
             case EnemyType.Normal:
-                requiredSequence = new KeyCode[] { KeyCode.Alpha2, KeyCode.Alpha3 };
+                requiredSequence = new KeyCode[] { KeyCode.RightArrow, KeyCode.UpArrow };
                 break;
             case EnemyType.Elite:
-                requiredSequence = new KeyCode[] { KeyCode.Alpha3, KeyCode.Alpha1, KeyCode.Alpha2 };
+                requiredSequence = new KeyCode[] { KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.RightArrow };
                 break;
         }
     }

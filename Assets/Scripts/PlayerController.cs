@@ -9,7 +9,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private int medAttackDamage = 2;
     [SerializeField] private int lowAttackDamage = 1;
 
-    private KeyCode[] comboSequence = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3};
+    private KeyCode[] comboSequence = { KeyCode.UpArrow, KeyCode.None, KeyCode.DownArrow};
     private int currentComboIndex = 0;
     [SerializeField] private float comboTime = 0.5f;
     private float comboTimer = 0;
@@ -19,46 +19,33 @@ public class NewBehaviourScript : MonoBehaviour
     private List<EnemyController> collidedEnemies = new List<EnemyController>();
     private EnemyController currentEnemy;
 
+    private bool isRight = false;
+    private bool isEnemyRight = false;
+    private bool canHit = false;
+
     void Update()
     {
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
-
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            {
-                Debug.Log("High Attack Right");
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            {
-                Debug.Log("High Attack Left");
-            }
-        }
-        else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            isRight = true;
+        } else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            {
-                Debug.Log("Low Attack Right");
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            {
-                Debug.Log("Low Attack Left");
-            }
-        }
-        else
-        {
-
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            {
-                Debug.Log("Mid Attack Right");
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            {
-                Debug.Log("Mid Attack Left");
-            }
+            isRight = false;
         }
 
         collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
+
+        if (isRight && isEnemyRight)
+        {
+            canHit = true;
+        } else if (!isRight && !isEnemyRight)
+        {
+            canHit = true;
+        } else
+        {
+            Debug.Log($"Player {isRight} but the enemy {isEnemyRight}");
+            canHit = false;
+        }
 
         if (collidedEnemies.Count > 0)
         {
@@ -84,6 +71,19 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
         {
+            Vector2 hitPoint = collision.contacts[0].point;
+
+            Vector2 localHit = transform.InverseTransformDirection(hitPoint);
+
+            if (localHit.x > 0)
+            {
+                isEnemyRight = true;
+            } else
+            {
+                isEnemyRight = false;
+            }
+
+            Debug.Log(isEnemyRight);
             collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
             comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
         }
@@ -112,19 +112,18 @@ public class NewBehaviourScript : MonoBehaviour
         {
             KeyCode currentInputKey = KeyCode.None;
 
-            if (Input.GetKeyDown(KeyCode.Alpha1)) currentInputKey = KeyCode.Alpha1;
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) currentInputKey = KeyCode.Alpha2;
-            else if (Input.GetKeyDown(KeyCode.Alpha3)) currentInputKey = KeyCode.Alpha3;
+            if (Input.GetKeyDown(KeyCode.DownArrow)) currentInputKey = KeyCode.DownArrow;
+            else if (Input.GetKeyDown(KeyCode.None)) currentInputKey = KeyCode.None;
+            else if (Input.GetKeyDown(KeyCode.UpArrow)) currentInputKey = KeyCode.UpArrow;
 
-            if (currentInputKey != KeyCode.None)
-            {
+
                 KeyCode requiredKey = KeyCode.None;
                 if (currentComboIndex < comboSequence.Length)
                 {
                     requiredKey = comboSequence[currentComboIndex];
                 }
 
-                if (currentInputKey == requiredKey)
+                if (currentInputKey == requiredKey && canHit)
                 {
                     Debug.Log("Correct combo input: " + requiredKey);
                     currentComboIndex++;
@@ -142,14 +141,6 @@ public class NewBehaviourScript : MonoBehaviour
                         ResetCombo();
                     }
                 }
-                else
-                {
-                    Debug.Log("combo failed");
-                    currentEnemy.GetComponent<SpriteRenderer>().color = defaultColor;
-                    ResetCombo();
-                    ScoreManager.Instance.AddToScore(-5);
-                }
-            }
         }
     }
 
