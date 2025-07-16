@@ -21,7 +21,6 @@ public class NewBehaviourScript : MonoBehaviour
 
     private bool isRight = false;
     private bool isEnemyRight = false;
-    private bool canHit = false;
 
     void Update()
     {
@@ -33,19 +32,7 @@ public class NewBehaviourScript : MonoBehaviour
             isRight = false;
         }
 
-        collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
-
-        if (isRight && isEnemyRight)
-        {
-            canHit = true;
-        } else if (!isRight && !isEnemyRight)
-        {
-            canHit = true;
-        } else
-        {
-            Debug.Log($"Player {isRight} but the enemy {isEnemyRight}");
-            canHit = false;
-        }
+            collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
 
         if (collidedEnemies.Count > 0)
         {
@@ -83,8 +70,7 @@ public class NewBehaviourScript : MonoBehaviour
                 isEnemyRight = false;
             }
 
-            Debug.Log(isEnemyRight);
-            collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
+                collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
             comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
         }
         
@@ -123,7 +109,7 @@ public class NewBehaviourScript : MonoBehaviour
                     requiredKey = comboSequence[currentComboIndex];
                 }
 
-                if (currentInputKey == requiredKey && canHit)
+                if (currentInputKey == requiredKey)
                 {
                     Debug.Log("Correct combo input: " + requiredKey);
                     currentComboIndex++;
@@ -131,15 +117,22 @@ public class NewBehaviourScript : MonoBehaviour
                     lastAttackTime = Time.time;
 
                     currentEnemy.GetComponent<SpriteRenderer>().color = Color.red;
+                    if (isEnemyRight)
+                    {
+                        gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
+                    } else
+                    {
+                        gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
+                    }
 
                     if (currentComboIndex == comboSequence.Length)
-                    {
-                        Debug.Log("Full combo executed! Killing enemy");
-                        currentEnemy.KillEnemy();
-                        lastAttackTime = Time.time;
-                        ScoreManager.Instance.AddToScore(50);
-                        ResetCombo();
-                    }
+                {
+                    Debug.Log("Full combo executed! Killing enemy");
+                    currentEnemy.KillEnemy();
+                    lastAttackTime = Time.time;
+                    ScoreManager.Instance.AddToScore(50);
+                    ResetCombo();
+                }
                 }
         }
     }
