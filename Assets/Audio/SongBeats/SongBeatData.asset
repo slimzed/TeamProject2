@@ -19,10 +19,6 @@ MonoBehaviour:
     beatNumber: 1
   - time: 1
     beatNumber: 2
-  - time: 1
-    beatNumber: 2
-  - time: 1
-    beatNumber: 2
   - time: 2
     beatNumber: 3
   - time: 3
