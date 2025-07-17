@@ -306,9 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   explosionParticles: {fileID: 6246213836065135713, guid: 5eed538ba96b7804e901fbc6b86e445d, type: 3}
-  enemyMovementSpeed: 0.5
+  enemyMovementSpeed: 1.5
   moveDir: -1
-  enemyHealth: 5
   enemyLifeSpan: 3
   beatMoveTime: 0.15
 --- !u!50 &4397596212017115634

@@ -75,7 +75,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         if (collidedEnemies.Count > 4)
         {
-            collidedEnemies[0].KillEnemy();
+            collidedEnemies[0].KillEnemy(false);
             collidedEnemies.RemoveAt(0); // removes the last enemy
 
             ScoreManager.Instance.AddToScore(-50);
@@ -128,7 +128,7 @@ public class NewBehaviourScript : MonoBehaviour
                     if (currentComboIndex == comboSequence.Length)
                     {
                         Debug.Log("Full combo executed! Killing enemy");
-                        currentEnemy.KillEnemy();
+                        currentEnemy.KillEnemy(true);
 
                         if (collidedEnemies.Count > 1)
                         {

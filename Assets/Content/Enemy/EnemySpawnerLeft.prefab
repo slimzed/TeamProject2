@@ -50,4 +50,5 @@ MonoBehaviour:
   moveDir: 1
   startTime: 0
   spawnOnBeatInterval: 1
+  BeatsPerSpawn: 3
   isMainSpawner: 0

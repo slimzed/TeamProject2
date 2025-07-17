@@ -88,7 +88,6 @@ public class EnemyController : MonoBehaviour
         {
             float t = (Time.time - moveStartTime) / beatMoveTime;
             t = Mathf.Clamp01(t); // clamps the value between 0 and 1
-            Debug.Log(t);
             var locationOnCurve = beatMovementCurve.Evaluate(t);
 
             Vector2 desiredPos = Vector2.Lerp(startPos, endPos, locationOnCurve);
@@ -121,7 +120,7 @@ public class EnemyController : MonoBehaviour
         {
             moveDir = 0; // stops the object from moving when it collides with the player 
             isMoving = false;
-            Invoke("EnemyKill", enemyLifeSpan);
+            StartCoroutine(EnemyColorLerpSequence());
         }
     }
     private void InitializeEnemyCombos(EnemyType enemyType)
@@ -139,16 +138,22 @@ public class EnemyController : MonoBehaviour
                 break;
         }
     }
-    public void KillEnemy() // public accessor so that other scripts can actually call the function 
+    public void KillEnemy(bool playerKill) // public accessor so that other scripts can actually call the function 
     {
-        StartCoroutine(EnemyKillSequence());
+        StartCoroutine(EnemyKillSequence(playerKill));
     }
 
-    private IEnumerator EnemyKillSequence() // accessed by the enemy itself
+    private IEnumerator EnemyKillSequence(bool playerKill) // accessed by the enemy itself
     {
         Destroy(gameObject);
         yield return StartCoroutine(ShowExplosionParticles());
-        ScoreManager.Instance.AddToScore(-50); // adds a penalty to the score if the enemy is not killed in time
+        if (playerKill)
+        {
+            ScoreManager.Instance.AddToScore(100); // Add score for killing the enemy
+        } else
+        {
+            ScoreManager.Instance.AddToScore(-50); // adds a penalty to the score if the enemy is not killed in time
+        }
     }
 
     private IEnumerator ShowExplosionParticles()
@@ -156,6 +161,22 @@ public class EnemyController : MonoBehaviour
         GameObject explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);   
         yield return new WaitForSeconds(0.4f);
         Destroy(explosion);
+    }
+
+    private IEnumerator EnemyColorLerpSequence()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Color startColor = spriteRenderer.color; // should pull the tinted blue
+        Color targetColor = Color.red;
+        float elapsedTime = 0f;
+        while (elapsedTime < enemyLifeSpan)
+        {
+            spriteRenderer.color = Color.Lerp(startColor, targetColor, elapsedTime / enemyLifeSpan);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for the next frame
+        }
+        spriteRenderer.color = targetColor; // Ensure the final color is set
+        StartCoroutine(EnemyKillSequence(false));
     }
 
 

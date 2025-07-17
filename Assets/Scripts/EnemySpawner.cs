@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     
     [SerializeField] private int startTime = 0;
     [SerializeField] private int spawnOnBeatInterval = 1;
-    [SerializeField] private int BeatsPerSpawn = 3;
+    [SerializeField] private int BeatsPerSpawn = 0;
     private int _initBeats;
 
     [SerializeField] private bool isMainSpawner;
@@ -37,7 +37,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (beatNumber >= startTime && (beatNumber - startTime) % spawnOnBeatInterval == 0)
         {
-            // this if statement alternates between enemy spawners 
             if (isMainSpawner && isFirstSpawner || !isMainSpawner && !isFirstSpawner)
             {
                 BeatsPerSpawn--;
@@ -55,6 +54,7 @@ public class EnemySpawner : MonoBehaviour
     {
 
         int enemySelection = Random.Range(0, 100); // hopefully going to be used to spawn enemies on a weighted average
+
         GameObject enemy;
 
         if (enemySelection <= 10)
