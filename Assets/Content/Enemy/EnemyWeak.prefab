@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 4460692170637241248}
   - component: {fileID: 1661266259985637474}
   - component: {fileID: -1535892750271318286}
-  m_Layer: 0
+  - component: {fileID: 6142869454587439163}
+  m_Layer: 6
   m_Name: EnemyWeak
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -137,10 +138,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   explosionParticles: {fileID: 6246213836065135713, guid: 5eed538ba96b7804e901fbc6b86e445d, type: 3}
-  enemyMovementSpeed: 2
+  enemyMovementSpeed: 0.5
   moveDir: -1
   enemyHealth: 5
   enemyLifeSpan: 1
+  beatMoveTime: 0.15
+--- !u!50 &6142869454587439163
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425266481335760969}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &3597979395160866577
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7935887085996082883}
   - component: {fileID: 8645311200880786722}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DownArrow (1)
   m_TagString: InputArrow
   m_Icon: {fileID: 0}
@@ -235,7 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3693126613255533643}
   - component: {fileID: 4159764853471906526}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DownArrow
   m_TagString: InputArrow
   m_Icon: {fileID: 0}

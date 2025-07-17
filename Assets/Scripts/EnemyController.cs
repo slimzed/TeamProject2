@@ -43,8 +43,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float enemyMovementSpeed = 2f;
     [Tooltip("-1 for left, 1 for right")]
     [SerializeField] public int moveDir = -1;
-    [SerializeField] private int enemyHealth = 5;
-    [SerializeField] private float enemyLifeSpan = 1f; // how long the enemy will live before it is destroyed   
+    [SerializeField] private float enemyLifeSpan = 1f; // how long the enemy will live before it is destroyed
+    [SerializeField] private float beatMoveTime = 0.15f;
 
 
     // change from enemy to enemy
@@ -52,10 +52,21 @@ public class EnemyController : MonoBehaviour
     private KeyCode midInput;
 
 
+    private Vector2 startPos;
+    private Vector2 endPos;
+    private float moveStartTime;
+    private bool isMoving = false;
+    private Rigidbody2D rb;
+    private AnimationCurve beatMovementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+
     public KeyCode[] ComboSequence => requiredSequence; // creates a public variable that just inherits from the requiredSequence private variable
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        startPos = rb.position;
+        endPos = rb.position;
         if (moveDir == 1)
         {
             midInput = KeyCode.LeftArrow;
@@ -65,25 +76,51 @@ public class EnemyController : MonoBehaviour
             midInput = KeyCode.RightArrow;
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
+        isMoving = true;
         InitializeEnemyCombos(enemyType); // enemy type is set within the editor
+        AudioManager.OnBeat += HandleBeat; 
 
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.Translate(CalcMovement());
+        if (isMoving)
+        {
+            float t = (Time.time - moveStartTime) / beatMoveTime;
+            t = Mathf.Clamp01(t); // clamps the value between 0 and 1
+            Debug.Log(t);
+            var locationOnCurve = beatMovementCurve.Evaluate(t);
+
+            Vector2 desiredPos = Vector2.Lerp(startPos, endPos, locationOnCurve);
+            rb.MovePosition(desiredPos);
+
+            if (t>= 1f) // checks if the lerp is done
+            {
+                rb.MovePosition(endPos);
+                startPos = endPos; // sets the start position to the end position so that it can move again
+            }
+        }
     }
 
-    private Vector3 CalcMovement()
+    private void HandleBeat(int beatNumber, bool isFirstSpawner)
     {
-        float horizontalDisplacement = enemyMovementSpeed * moveDir * Time.deltaTime;
-        return new Vector3(horizontalDisplacement, 0, 0);
+        moveStartTime = Time.time;
+        endPos = startPos + CalcMovement();
+    }   
+
+    private Vector2 CalcMovement()
+    {
+        float horizontalDisplacement = enemyMovementSpeed * moveDir;
+        return new Vector2(horizontalDisplacement, 0);
     }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Player"))
         {
             moveDir = 0; // stops the object from moving when it collides with the player 
+            isMoving = false;
             Invoke("EnemyKill", enemyLifeSpan);
         }
     }
