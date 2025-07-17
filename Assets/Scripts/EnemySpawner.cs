@@ -24,7 +24,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("started");
         AudioManager.OnBeat += HandleBeat;
     }
     public void CancelSpawn()
@@ -50,7 +49,7 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemyPrefab()
     {
 
-        int enemySelection = Random.Range(0, 100);
+        int enemySelection = Random.Range(0, 100); // hopefully going to be used to spawn enemies on a weighted average
         GameObject enemy;
         
         if (enemySelection <= 10)

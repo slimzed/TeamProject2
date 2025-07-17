@@ -33,7 +33,6 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(moveDir);
         if (moveDir == 1)
         {
             midInput = KeyCode.LeftArrow;
@@ -43,7 +42,6 @@ public class EnemyController : MonoBehaviour
             midInput = KeyCode.RightArrow;
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
-        Debug.Log(midInput);
         InitializeEnemyCombos(enemyType); // enemy type is set within the editor
 
     }

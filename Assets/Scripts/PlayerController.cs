@@ -24,59 +24,40 @@ public class NewBehaviourScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            isRight = true;
-            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
-        } else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            isRight = false;
-            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
-        }
+        ApplyPlayerSpriteDirection();
 
-            collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
-
-        if (collidedEnemies.Count > 0)
-        {
-            currentEnemy = collidedEnemies[0];
-        }
-        else
-        {
-            if (currentEnemy != null)
-            {
-            }
-            currentEnemy = null;
-        }
-
-        if (currentEnemy == null && currentComboIndex > 0)
-        {
-            ResetCombo();
-        }
+        DetectCurrentEnemy();
 
         ComboDetectionFunction();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void ApplyPlayerSpriteDirection()
     {
-        if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
+        if ( Input.GetKeyDown(KeyCode.D))
         {
-            Vector2 hitPoint = collision.contacts[0].point;
-
-            Vector2 localHit = transform.InverseTransformDirection(hitPoint);
-
-            if (localHit.x > 0)
-            {
-                isEnemyRight = true;
-            } else
-            {
-                isEnemyRight = false;
-            }
-
-                collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
-            comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
-
+            isRight = true;
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
         }
-        
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            isRight = false;
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
+        }
+    }
+    private void DetectCurrentEnemy()
+    {
+        collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
+        Debug.Log(collidedEnemies.Count);
+
+
+        if (collidedEnemies.Count > 2)
+        {
+            Destroy(collidedEnemies[0].gameObject);
+            collidedEnemies.RemoveAt(0); // removes the last enemy
+
+            ScoreManager.Instance.AddToScore(-50);
+        }
     }
     private void ComboDetectionFunction() 
     {
@@ -106,7 +87,8 @@ public class NewBehaviourScript : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.LeftArrow)) currentInputKey = KeyCode.LeftArrow;
             else if (Input.GetKeyDown(KeyCode.UpArrow)) currentInputKey = KeyCode.UpArrow;
 
-
+            if (currentInputKey != KeyCode.None)
+            {
                 KeyCode requiredKey = KeyCode.None;
                 if (currentComboIndex < comboSequence.Length)
                 {
@@ -120,24 +102,36 @@ public class NewBehaviourScript : MonoBehaviour
                     comboTimer = comboTime;
                     lastAttackTime = Time.time;
 
-                    currentEnemy.GetComponent<SpriteRenderer>().color = Color.red;
-                    if (isEnemyRight)
-                    {
-                        gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
-                    } else
-                    {
-                        gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
-                    }
+                    ApplyEnemySpriteHit();
 
                     if (currentComboIndex == comboSequence.Length)
+                    {
+                        Debug.Log("Full combo executed! Killing enemy");
+                        currentEnemy.KillEnemy();
+
+                        Debug.Log(collidedEnemies.Count);
+                        if (collidedEnemies.Count > 1)
+                        {
+                            currentEnemy = collidedEnemies[collidedEnemies.Count-2];
+                            Debug.Log(currentEnemy.name);
+                        } else
+                        {
+                            currentEnemy = null;
+                        }
+
+
+
+                            lastAttackTime = Time.time;
+                        ScoreManager.Instance.AddToScore(50);
+                        ResetCombo();
+                    }
+                }
+                else
                 {
-                    Debug.Log("Full combo executed! Killing enemy");
-                    currentEnemy.KillEnemy();
-                    lastAttackTime = Time.time;
-                    ScoreManager.Instance.AddToScore(50);
-                    ResetCombo();
+                    Debug.Log("incorrect input");
+                    ScoreManager.Instance.AddToScore(-25);
                 }
-                }
+            }
         }
     }
 
@@ -145,6 +139,43 @@ public class NewBehaviourScript : MonoBehaviour
     {
         currentComboIndex = 0;
         comboTimer = 0f;
+        if (currentEnemy != null) comboSequence = currentEnemy.ComboSequence; // accesses the enemies combo 
         Debug.Log("Combo reset.");
+    }
+    private void ApplyEnemySpriteHit()
+    {
+        currentEnemy.GetComponent<SpriteRenderer>().color = Color.red;
+        if (isEnemyRight)
+        {
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
+        {
+            Vector2 hitPoint = collision.contacts[0].point;
+
+            Vector2 localHit = transform.InverseTransformDirection(hitPoint);
+
+            if (localHit.x > 0)
+            {
+                isEnemyRight = true;
+            }
+            else
+            {
+                isEnemyRight = false;
+            }
+
+            collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
+            currentEnemy = collision.gameObject.GetComponent<EnemyController>();
+            comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
+
+        }
+
     }
 }
