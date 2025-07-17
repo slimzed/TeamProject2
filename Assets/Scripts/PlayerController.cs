@@ -22,6 +22,23 @@ public class NewBehaviourScript : MonoBehaviour
     private bool isRight = false;
     private bool isEnemyRight = false;
 
+
+    // script calls
+    private GameObject ScriptCalls;
+    private AudioSource source;
+
+    [SerializeField] private AudioClip failure;
+    [SerializeField] private AudioClip highhit;
+    [SerializeField] private AudioClip lowhit;
+    [SerializeField] private AudioClip midhit;
+
+
+    private void Awake()
+    {
+        ScriptCalls = GameObject.Find("ScriptCalls");
+        source = ScriptCalls.GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         ApplyPlayerSpriteDirection();
@@ -48,7 +65,6 @@ public class NewBehaviourScript : MonoBehaviour
     private void DetectCurrentEnemy()
     {
         collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
-        Debug.Log(collidedEnemies.Count);
 
 
         if (collidedEnemies.Count > 2)
@@ -64,30 +80,27 @@ public class NewBehaviourScript : MonoBehaviour
         Color defaultColor = Color.white;
         if (currentEnemy != null)
         {
-            defaultColor = currentEnemy.GetComponent<SpriteRenderer>().color;
+            defaultColor = currentEnemy.enemyColor;
         }
 
-            if (currentComboIndex > 0)
+        if (currentComboIndex > 0)
         {
             comboTimer -= Time.deltaTime;
             if (comboTimer <= 0)
             {
                 Debug.Log("Combo failed! Time ran out.");
                 currentEnemy.GetComponent<SpriteRenderer>().color = defaultColor;
+                source.clip = failure;
+                source.Play();
                 ResetCombo();
             }
         }
 
         if (currentEnemy != null && Time.time >= lastAttackTime + highAttackCooldown)
         {
-            KeyCode currentInputKey = KeyCode.None;
+            KeyCode currentInputKey = CheckAndAnimateInput();
 
-            if (Input.GetKeyDown(KeyCode.DownArrow)) currentInputKey = KeyCode.DownArrow;
-            else if (Input.GetKeyDown(KeyCode.RightArrow)) currentInputKey = KeyCode.RightArrow;
-            else if (Input.GetKeyDown(KeyCode.LeftArrow)) currentInputKey = KeyCode.LeftArrow;
-            else if (Input.GetKeyDown(KeyCode.UpArrow)) currentInputKey = KeyCode.UpArrow;
-
-            if (currentInputKey != KeyCode.None)
+                if (currentInputKey != KeyCode.None)
             {
                 KeyCode requiredKey = KeyCode.None;
                 if (currentComboIndex < comboSequence.Length)
@@ -129,7 +142,10 @@ public class NewBehaviourScript : MonoBehaviour
                 else
                 {
                     Debug.Log("incorrect input");
+                    currentEnemy.gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
                     ScoreManager.Instance.AddToScore(-25);
+                    source.clip = failure;
+                    source.Play();
                 }
             }
         }
@@ -141,6 +157,35 @@ public class NewBehaviourScript : MonoBehaviour
         comboTimer = 0f;
         if (currentEnemy != null) comboSequence = currentEnemy.ComboSequence; // accesses the enemies combo 
         Debug.Log("Combo reset.");
+    }
+    private KeyCode CheckAndAnimateInput()
+    {
+        KeyCode currentInputKey = KeyCode.None;
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            currentInputKey = KeyCode.DownArrow;
+            source.clip = lowhit;
+            source.Play();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            currentInputKey = KeyCode.RightArrow;
+            source.clip = midhit;
+            source.Play();
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            currentInputKey = KeyCode.LeftArrow;
+            source.clip = midhit;
+            source.Play();
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            currentInputKey = KeyCode.UpArrow;
+            source.clip = highhit;
+            source.Play();
+        }
+        return currentInputKey;
     }
     private void ApplyEnemySpriteHit()
     {

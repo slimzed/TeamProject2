@@ -14,7 +14,27 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyType enemyType;
 
-
+    public Color enemyColor
+    {
+        get
+        {
+            switch(enemyType)
+            {
+                case EnemyType.Weak:
+                    return Color.grey;
+                case EnemyType.Normal:
+                    return Color.green;
+                case EnemyType.Elite:
+                    return Color.blue;
+                default:
+                    return Color.white; // Fallback color
+            }   
+        }
+        private set
+        {
+            enemyColor = value;
+        }
+    }
 
     
     
