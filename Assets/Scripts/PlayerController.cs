@@ -96,6 +96,7 @@ public class NewBehaviourScript : MonoBehaviour
             {
                 Debug.Log("Combo failed! Time ran out.");
                 currentEnemy.GetComponent<SpriteRenderer>().color = defaultColor;
+                ResetInputArrow(currentEnemy.gameObject);
                 source.clip = failure;
                 source.Play();
                 ResetCombo();
@@ -289,10 +290,13 @@ public class NewBehaviourScript : MonoBehaviour
     {
         foreach (Transform arrow in parentArrow.transform)
         {
-            if (arrow.CompareTag("InputArrow"))
+            if (arrow.CompareTag("InputArrow") && arrow.gameObject.activeInHierarchy)
             {
                 arrow.gameObject.SetActive(false);
                 break;
+            } else
+            {
+                continue;
             }
         }
         Debug.Log("all arrows removed");
@@ -301,7 +305,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         foreach (Transform arrow in parentArrow.transform)
         {
-            if (arrow.CompareTag("InputArrow"))
+            if (arrow.CompareTag("InputArrow") && !arrow.gameObject.activeInHierarchy)
             {
                 arrow.gameObject.SetActive(true);
             }
