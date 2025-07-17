@@ -75,7 +75,7 @@ public class NewBehaviourScript : MonoBehaviour
 
         if (collidedEnemies.Count > 4)
         {
-            Destroy(collidedEnemies[0].gameObject);
+            collidedEnemies[0].KillEnemy();
             collidedEnemies.RemoveAt(0); // removes the last enemy
 
             ScoreManager.Instance.AddToScore(-50);
@@ -130,7 +130,6 @@ public class NewBehaviourScript : MonoBehaviour
                         Debug.Log("Full combo executed! Killing enemy");
                         currentEnemy.KillEnemy();
 
-                        Debug.Log(collidedEnemies.Count);
                         if (collidedEnemies.Count > 1)
                         {
                             currentEnemy = collidedEnemies[collidedEnemies.Count-2];
@@ -299,7 +298,6 @@ public class NewBehaviourScript : MonoBehaviour
                 continue;
             }
         }
-        Debug.Log("all arrows removed");
     }
     private void ResetInputArrow(GameObject parentArrow)
     {

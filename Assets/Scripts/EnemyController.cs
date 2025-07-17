@@ -14,6 +14,8 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyType enemyType;
 
+    [SerializeField] private GameObject explosionParticles;
+
     public Color enemyColor
     {
         get
@@ -100,15 +102,23 @@ public class EnemyController : MonoBehaviour
                 break;
         }
     }
-    public void KillEnemy()
+    public void KillEnemy() // public accessor so that other scripts can actually call the function 
     {
-        Destroy(gameObject);
+        StartCoroutine(EnemyKillSequence());
     }
 
-    private void EnemyKill()
+    private IEnumerator EnemyKillSequence() // accessed by the enemy itself
     {
-        KillEnemy();
+        Destroy(gameObject);
+        yield return StartCoroutine(ShowExplosionParticles());
         ScoreManager.Instance.AddToScore(-50); // adds a penalty to the score if the enemy is not killed in time
+    }
+
+    private IEnumerator ShowExplosionParticles()
+    {
+        GameObject explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);   
+        yield return new WaitForSeconds(0.4f);
+        Destroy(explosion);
     }
 
 

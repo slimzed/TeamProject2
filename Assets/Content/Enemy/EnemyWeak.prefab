@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 0
+  explosionParticles: {fileID: 6246213836065135713, guid: 5eed538ba96b7804e901fbc6b86e445d, type: 3}
   enemyMovementSpeed: 2
   moveDir: -1
   enemyHealth: 5

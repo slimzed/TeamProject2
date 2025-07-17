@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
     public static Action OnGameOver;
-    private int _score = 1000;
+    private int _score = 250;
     public int Score
     {
         get
