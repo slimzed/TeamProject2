@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
-    [SerializeField] private int highAttackDamage = 3;
     [SerializeField] private float attackCooldown = 0f;
-    [SerializeField] private int medAttackDamage = 2;
-    [SerializeField] private int lowAttackDamage = 1;
     [SerializeField] private float hitStopDuration = 0.5f;
 
     private AnimationCurve hitstopCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // used for hit stop, not implemented yet
@@ -51,7 +49,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         ApplyPlayerSpriteDirection();
 
-        DetectCurrentEnemy();
+        CleanUpEnemies();
 
         ComboDetectionFunction();
     }
@@ -70,7 +68,7 @@ public class NewBehaviourScript : MonoBehaviour
             gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
         }
     }
-    private void DetectCurrentEnemy()
+    private void CleanUpEnemies()
     {
         collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
 
@@ -124,6 +122,7 @@ public class NewBehaviourScript : MonoBehaviour
                     lastAttackTime = Time.time;
 
                     ApplyEnemySpriteHit();
+                    RemoveInputArrow(currentEnemy.gameObject);
 
                     if (currentComboIndex == comboSequence.Length)
                     {
@@ -134,6 +133,7 @@ public class NewBehaviourScript : MonoBehaviour
                         if (collidedEnemies.Count > 1)
                         {
                             currentEnemy = collidedEnemies[collidedEnemies.Count-2];
+                            ResetInputArrow(currentEnemy.gameObject);
                             SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true);
                         } else
                         {
@@ -142,7 +142,7 @@ public class NewBehaviourScript : MonoBehaviour
 
 
 
-                            lastAttackTime = Time.time;
+                        lastAttackTime = Time.time;
                         ScoreManager.Instance.AddToScore(50);
                         ResetCombo();
                     }
@@ -152,6 +152,7 @@ public class NewBehaviourScript : MonoBehaviour
                     Debug.Log("incorrect input");
                     currentEnemy.gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
                     ScoreManager.Instance.AddToScore(-25);
+                    ResetInputArrow(currentEnemy.gameObject);
                     source.clip = failure;
                     source.Play();
                 }
@@ -282,6 +283,29 @@ public class NewBehaviourScript : MonoBehaviour
             material.color = Color.white;
         }
 
+    }
+
+    private void RemoveInputArrow(GameObject parentArrow)
+    {
+        foreach (Transform arrow in parentArrow.transform)
+        {
+            if (arrow.CompareTag("InputArrow"))
+            {
+                arrow.gameObject.SetActive(false);
+                break;
+            }
+        }
+        Debug.Log("all arrows removed");
+    }
+    private void ResetInputArrow(GameObject parentArrow)
+    {
+        foreach (Transform arrow in parentArrow.transform)
+        {
+            if (arrow.CompareTag("InputArrow"))
+            {
+                arrow.gameObject.SetActive(true);
+            }
+        }
     }
 
 }

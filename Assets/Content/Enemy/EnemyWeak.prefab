@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 8645311200880786722}
   m_Layer: 0
   m_Name: DownArrow (1)
-  m_TagString: Untagged
+  m_TagString: InputArrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 4159764853471906526}
   m_Layer: 0
   m_Name: DownArrow
-  m_TagString: Untagged
+  m_TagString: InputArrow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
