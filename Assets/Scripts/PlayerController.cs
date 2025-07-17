@@ -8,6 +8,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private float highAttackCooldown = 0f;
     [SerializeField] private int medAttackDamage = 2;
     [SerializeField] private int lowAttackDamage = 1;
+    [SerializeField] private float enemyLifeSpan = 1f;
 
     private KeyCode[] comboSequence = { KeyCode.UpArrow, KeyCode.None, KeyCode.DownArrow};
     private int currentComboIndex = 0;
@@ -31,6 +32,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private AudioClip highhit;
     [SerializeField] private AudioClip lowhit;
     [SerializeField] private AudioClip midhit;
+    [SerializeField] private AudioClip enemyCollision;
 
 
     private void Awake()
@@ -67,7 +69,7 @@ public class NewBehaviourScript : MonoBehaviour
         collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
 
 
-        if (collidedEnemies.Count > 2)
+        if (collidedEnemies.Count > 4)
         {
             Destroy(collidedEnemies[0].gameObject);
             collidedEnemies.RemoveAt(0); // removes the last enemy
@@ -203,6 +205,9 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
         {
+            source.clip = enemyCollision;
+            source.Play();
+            
             Vector2 hitPoint = collision.contacts[0].point;
 
             Vector2 localHit = transform.InverseTransformDirection(hitPoint);
@@ -219,8 +224,20 @@ public class NewBehaviourScript : MonoBehaviour
             collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
             currentEnemy = collision.gameObject.GetComponent<EnemyController>();
             comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
-
+            StartCoroutine(KillObject(collision.gameObject));
         }
 
+    }
+    private IEnumerator KillObject(GameObject enemy)
+    {
+        yield return new WaitForSeconds(enemyLifeSpan);
+        Debug.Log("kill happening");
+
+        if (enemy != null && enemy.activeInHierarchy)
+        {
+            Debug.Log("killed enemy");
+            Destroy(enemy);
+            ScoreManager.Instance.AddToScore(-50);
+        }
     }
 }

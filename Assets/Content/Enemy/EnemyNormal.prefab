@@ -308,6 +308,7 @@ MonoBehaviour:
   enemyMovementSpeed: 3
   moveDir: -1
   enemyHealth: 5
+  enemyLifeSpan: 3
 --- !u!1 &7908994993916618908
 GameObject:
   m_ObjectHideFlags: 0

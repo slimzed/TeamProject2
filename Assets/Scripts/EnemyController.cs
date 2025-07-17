@@ -42,6 +42,7 @@ public class EnemyController : MonoBehaviour
     [Tooltip("-1 for left, 1 for right")]
     [SerializeField] public int moveDir = -1;
     [SerializeField] private int enemyHealth = 5;
+    [SerializeField] private float enemyLifeSpan = 1f; // how long the enemy will live before it is destroyed   
 
 
     // change from enemy to enemy
@@ -81,6 +82,7 @@ public class EnemyController : MonoBehaviour
         if (collision.transform.CompareTag("Player"))
         {
             moveDir = 0; // stops the object from moving when it collides with the player 
+            Invoke("EnemyKill", enemyLifeSpan);
         }
     }
     private void InitializeEnemyCombos(EnemyType enemyType)
@@ -101,6 +103,12 @@ public class EnemyController : MonoBehaviour
     public void KillEnemy()
     {
         Destroy(gameObject);
+    }
+
+    private void EnemyKill()
+    {
+        KillEnemy();
+        ScoreManager.Instance.AddToScore(-50); // adds a penalty to the score if the enemy is not killed in time
     }
 
 
