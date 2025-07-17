@@ -224,20 +224,8 @@ public class NewBehaviourScript : MonoBehaviour
             collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
             currentEnemy = collision.gameObject.GetComponent<EnemyController>();
             comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
-            StartCoroutine(KillObject(collision.gameObject));
         }
 
     }
-    private IEnumerator KillObject(GameObject enemy)
-    {
-        yield return new WaitForSeconds(enemyLifeSpan);
-        Debug.Log("kill happening");
 
-        if (enemy != null && enemy.activeInHierarchy)
-        {
-            Debug.Log("killed enemy");
-            Destroy(enemy);
-            ScoreManager.Instance.AddToScore(-50);
-        }
-    }
 }
