@@ -48,10 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highAttackDamage: 3
-  highAttackCooldown: 0.1
+  attackCooldown: 0.05
   medAttackDamage: 2
   lowAttackDamage: 1
-  enemyLifeSpan: 1
+  hitStopDuration: 0.1
   comboTime: 1.5
   failure: {fileID: 8300000, guid: 04df6d5c5d156dc45b80d1843bc02832, type: 3}
   highhit: {fileID: 8300000, guid: ae7dcdb8667016f4bbbc6ebf2e6ad0d5, type: 3}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
+    public static Action OnGameOver;
     private int _score = 1000;
     public int Score
     {
@@ -39,6 +41,11 @@ public class ScoreManager : MonoBehaviour
     public void AddToScore(int score)
     {
         Score += score;
+        if (Score <= 0)
+        {
+            Score = 0;
+            OnGameOver?.Invoke();
+        }
     }
 
     private void UpdateUI()

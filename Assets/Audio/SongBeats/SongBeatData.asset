@@ -13,185 +13,369 @@ MonoBehaviour:
   m_Name: SongBeatData
   m_EditorClassIdentifier: 
   songClip: {fileID: 8300000, guid: c511b5f68453bef478eefd9e5850114d, type: 3}
-  bpm: 30
+  bpm: 60
   beats:
   - time: 0
     beatNumber: 1
-  - time: 2
+  - time: 1
     beatNumber: 2
-  - time: 4
+  - time: 1
+    beatNumber: 2
+  - time: 1
+    beatNumber: 2
+  - time: 2
     beatNumber: 3
-  - time: 6
+  - time: 3
     beatNumber: 4
-  - time: 8
+  - time: 4
     beatNumber: 5
-  - time: 10
+  - time: 5
     beatNumber: 6
-  - time: 12
+  - time: 6
     beatNumber: 7
-  - time: 14
+  - time: 7
     beatNumber: 8
-  - time: 16
+  - time: 8
     beatNumber: 9
-  - time: 18
+  - time: 9
     beatNumber: 10
-  - time: 20
+  - time: 10
     beatNumber: 11
-  - time: 22
+  - time: 11
     beatNumber: 12
-  - time: 24
+  - time: 12
     beatNumber: 13
-  - time: 26
+  - time: 13
     beatNumber: 14
-  - time: 28
+  - time: 14
     beatNumber: 15
-  - time: 30
+  - time: 15
     beatNumber: 16
-  - time: 32
+  - time: 16
     beatNumber: 17
-  - time: 34
+  - time: 17
     beatNumber: 18
-  - time: 36
+  - time: 18
     beatNumber: 19
-  - time: 38
+  - time: 19
     beatNumber: 20
-  - time: 40
+  - time: 20
     beatNumber: 21
-  - time: 42
+  - time: 21
     beatNumber: 22
-  - time: 44
+  - time: 22
     beatNumber: 23
-  - time: 46
+  - time: 23
     beatNumber: 24
-  - time: 48
+  - time: 24
     beatNumber: 25
-  - time: 50
+  - time: 25
     beatNumber: 26
-  - time: 52
+  - time: 26
     beatNumber: 27
-  - time: 54
+  - time: 27
     beatNumber: 28
-  - time: 56
+  - time: 28
     beatNumber: 29
-  - time: 58
+  - time: 29
     beatNumber: 30
-  - time: 60
+  - time: 30
     beatNumber: 31
-  - time: 62
+  - time: 31
     beatNumber: 32
-  - time: 64
+  - time: 32
     beatNumber: 33
-  - time: 66
+  - time: 33
     beatNumber: 34
-  - time: 68
+  - time: 34
     beatNumber: 35
-  - time: 70
+  - time: 35
     beatNumber: 36
-  - time: 72
+  - time: 36
     beatNumber: 37
-  - time: 74
+  - time: 37
     beatNumber: 38
-  - time: 76
+  - time: 38
     beatNumber: 39
-  - time: 78
+  - time: 39
     beatNumber: 40
-  - time: 80
+  - time: 40
     beatNumber: 41
-  - time: 82
+  - time: 41
     beatNumber: 42
-  - time: 84
+  - time: 42
     beatNumber: 43
-  - time: 86
+  - time: 43
     beatNumber: 44
-  - time: 88
+  - time: 44
     beatNumber: 45
-  - time: 90
+  - time: 45
     beatNumber: 46
-  - time: 92
+  - time: 46
     beatNumber: 47
-  - time: 94
+  - time: 47
     beatNumber: 48
-  - time: 96
+  - time: 48
     beatNumber: 49
-  - time: 98
+  - time: 49
     beatNumber: 50
-  - time: 100
+  - time: 50
     beatNumber: 51
-  - time: 102
+  - time: 51
     beatNumber: 52
-  - time: 104
+  - time: 52
     beatNumber: 53
-  - time: 106
+  - time: 53
     beatNumber: 54
-  - time: 108
+  - time: 54
     beatNumber: 55
-  - time: 110
+  - time: 55
     beatNumber: 56
-  - time: 112
+  - time: 56
     beatNumber: 57
-  - time: 114
+  - time: 57
     beatNumber: 58
-  - time: 116
+  - time: 58
     beatNumber: 59
-  - time: 118
+  - time: 59
     beatNumber: 60
-  - time: 120
+  - time: 60
     beatNumber: 61
-  - time: 122
+  - time: 61
     beatNumber: 62
-  - time: 124
+  - time: 62
     beatNumber: 63
-  - time: 126
+  - time: 63
     beatNumber: 64
-  - time: 128
+  - time: 64
     beatNumber: 65
-  - time: 130
+  - time: 65
     beatNumber: 66
-  - time: 132
+  - time: 66
     beatNumber: 67
-  - time: 134
+  - time: 67
     beatNumber: 68
-  - time: 136
+  - time: 68
     beatNumber: 69
-  - time: 138
+  - time: 69
     beatNumber: 70
-  - time: 140
+  - time: 70
     beatNumber: 71
-  - time: 142
+  - time: 71
     beatNumber: 72
-  - time: 144
+  - time: 72
     beatNumber: 73
-  - time: 146
+  - time: 73
     beatNumber: 74
-  - time: 148
+  - time: 74
     beatNumber: 75
-  - time: 150
+  - time: 75
     beatNumber: 76
-  - time: 152
+  - time: 76
     beatNumber: 77
-  - time: 154
+  - time: 77
     beatNumber: 78
-  - time: 156
+  - time: 78
     beatNumber: 79
-  - time: 158
+  - time: 79
     beatNumber: 80
-  - time: 160
+  - time: 80
     beatNumber: 81
-  - time: 162
+  - time: 81
     beatNumber: 82
-  - time: 164
+  - time: 82
     beatNumber: 83
-  - time: 166
+  - time: 83
     beatNumber: 84
-  - time: 168
+  - time: 84
     beatNumber: 85
-  - time: 170
+  - time: 85
     beatNumber: 86
-  - time: 172
+  - time: 86
     beatNumber: 87
-  - time: 174
+  - time: 87
     beatNumber: 88
-  - time: 176
+  - time: 88
     beatNumber: 89
-  - time: 178
+  - time: 89
     beatNumber: 90
+  - time: 90
+    beatNumber: 91
+  - time: 91
+    beatNumber: 92
+  - time: 92
+    beatNumber: 93
+  - time: 93
+    beatNumber: 94
+  - time: 94
+    beatNumber: 95
+  - time: 95
+    beatNumber: 96
+  - time: 96
+    beatNumber: 97
+  - time: 97
+    beatNumber: 98
+  - time: 98
+    beatNumber: 99
+  - time: 99
+    beatNumber: 100
+  - time: 100
+    beatNumber: 101
+  - time: 101
+    beatNumber: 102
+  - time: 102
+    beatNumber: 103
+  - time: 103
+    beatNumber: 104
+  - time: 104
+    beatNumber: 105
+  - time: 105
+    beatNumber: 106
+  - time: 106
+    beatNumber: 107
+  - time: 107
+    beatNumber: 108
+  - time: 108
+    beatNumber: 109
+  - time: 109
+    beatNumber: 110
+  - time: 110
+    beatNumber: 111
+  - time: 111
+    beatNumber: 112
+  - time: 112
+    beatNumber: 113
+  - time: 113
+    beatNumber: 114
+  - time: 114
+    beatNumber: 115
+  - time: 115
+    beatNumber: 116
+  - time: 116
+    beatNumber: 117
+  - time: 117
+    beatNumber: 118
+  - time: 118
+    beatNumber: 119
+  - time: 119
+    beatNumber: 120
+  - time: 120
+    beatNumber: 121
+  - time: 121
+    beatNumber: 122
+  - time: 122
+    beatNumber: 123
+  - time: 123
+    beatNumber: 124
+  - time: 124
+    beatNumber: 125
+  - time: 125
+    beatNumber: 126
+  - time: 126
+    beatNumber: 127
+  - time: 127
+    beatNumber: 128
+  - time: 128
+    beatNumber: 129
+  - time: 129
+    beatNumber: 130
+  - time: 130
+    beatNumber: 131
+  - time: 131
+    beatNumber: 132
+  - time: 132
+    beatNumber: 133
+  - time: 133
+    beatNumber: 134
+  - time: 134
+    beatNumber: 135
+  - time: 135
+    beatNumber: 136
+  - time: 136
+    beatNumber: 137
+  - time: 137
+    beatNumber: 138
+  - time: 138
+    beatNumber: 139
+  - time: 139
+    beatNumber: 140
+  - time: 140
+    beatNumber: 141
+  - time: 141
+    beatNumber: 142
+  - time: 142
+    beatNumber: 143
+  - time: 143
+    beatNumber: 144
+  - time: 144
+    beatNumber: 145
+  - time: 145
+    beatNumber: 146
+  - time: 146
+    beatNumber: 147
+  - time: 147
+    beatNumber: 148
+  - time: 148
+    beatNumber: 149
+  - time: 149
+    beatNumber: 150
+  - time: 150
+    beatNumber: 151
+  - time: 151
+    beatNumber: 152
+  - time: 152
+    beatNumber: 153
+  - time: 153
+    beatNumber: 154
+  - time: 154
+    beatNumber: 155
+  - time: 155
+    beatNumber: 156
+  - time: 156
+    beatNumber: 157
+  - time: 157
+    beatNumber: 158
+  - time: 158
+    beatNumber: 159
+  - time: 159
+    beatNumber: 160
+  - time: 160
+    beatNumber: 161
+  - time: 161
+    beatNumber: 162
+  - time: 162
+    beatNumber: 163
+  - time: 163
+    beatNumber: 164
+  - time: 164
+    beatNumber: 165
+  - time: 165
+    beatNumber: 166
+  - time: 166
+    beatNumber: 167
+  - time: 167
+    beatNumber: 168
+  - time: 168
+    beatNumber: 169
+  - time: 169
+    beatNumber: 170
+  - time: 170
+    beatNumber: 171
+  - time: 171
+    beatNumber: 172
+  - time: 172
+    beatNumber: 173
+  - time: 173
+    beatNumber: 174
+  - time: 174
+    beatNumber: 175
+  - time: 175
+    beatNumber: 176
+  - time: 176
+    beatNumber: 177
+  - time: 177
+    beatNumber: 178
+  - time: 178
+    beatNumber: 179
+  - time: 179
+    beatNumber: 180

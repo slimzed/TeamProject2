@@ -5,10 +5,15 @@ using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] private int highAttackDamage = 3;
-    [SerializeField] private float highAttackCooldown = 0f;
+    [SerializeField] private float attackCooldown = 0f;
     [SerializeField] private int medAttackDamage = 2;
     [SerializeField] private int lowAttackDamage = 1;
-    [SerializeField] private float enemyLifeSpan = 1f;
+    [SerializeField] private float hitStopDuration = 0.5f;
+
+    private AnimationCurve hitstopCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // used for hit stop, not implemented yet
+    private Color enemyDetectionColor = Color.blue;
+    [SerializeField] private float tintLevel = 0.2f;
+
 
     private KeyCode[] comboSequence = { KeyCode.UpArrow, KeyCode.None, KeyCode.DownArrow};
     private int currentComboIndex = 0;
@@ -22,6 +27,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     private bool isRight = false;
     private bool isEnemyRight = false;
+    private bool isHitStop = false; // used for hit stop, not implemented yet
 
 
     // script calls
@@ -98,7 +104,7 @@ public class NewBehaviourScript : MonoBehaviour
             }
         }
 
-        if (currentEnemy != null && Time.time >= lastAttackTime + highAttackCooldown)
+        if (currentEnemy != null && Time.time >= lastAttackTime + attackCooldown)
         {
             KeyCode currentInputKey = CheckAndAnimateInput();
 
@@ -128,7 +134,7 @@ public class NewBehaviourScript : MonoBehaviour
                         if (collidedEnemies.Count > 1)
                         {
                             currentEnemy = collidedEnemies[collidedEnemies.Count-2];
-                            Debug.Log(currentEnemy.name);
+                            SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true);
                         } else
                         {
                             currentEnemy = null;
@@ -168,24 +174,28 @@ public class NewBehaviourScript : MonoBehaviour
             currentInputKey = KeyCode.DownArrow;
             source.clip = lowhit;
             source.Play();
+            StartCoroutine(HitStopCoroutine());
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             currentInputKey = KeyCode.RightArrow;
             source.clip = midhit;
             source.Play();
+            StartCoroutine(HitStopCoroutine());
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             currentInputKey = KeyCode.LeftArrow;
             source.clip = midhit;
             source.Play();
+            StartCoroutine(HitStopCoroutine());
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             currentInputKey = KeyCode.UpArrow;
             source.clip = highhit;
             source.Play();
+            StartCoroutine(HitStopCoroutine());
         }
         return currentInputKey;
     }
@@ -223,7 +233,53 @@ public class NewBehaviourScript : MonoBehaviour
 
             collidedEnemies.Add(collision.gameObject.GetComponent<EnemyController>());
             currentEnemy = collision.gameObject.GetComponent<EnemyController>();
-            comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
+
+            if (collidedEnemies.Count > 1)
+            {
+                SetTint(collidedEnemies[collidedEnemies.Count - 2].GetComponent<SpriteRenderer>().material, false); // disables the emission of the previous enemy
+                SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true); // enables the emission of the current enemy
+            } else
+            {
+                SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true); // enables the emission of the current enemy
+            }
+
+
+
+                comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
+        }
+
+    }
+    private IEnumerator HitStopCoroutine()
+    {
+        if (isHitStop) yield break;
+        isHitStop = true;
+
+        float originalTimeScale = Time.timeScale;
+
+        Time.timeScale = 0.1f;
+
+        yield return new WaitForSecondsRealtime(hitStopDuration);
+
+        float timer = 0f;
+        while (timer < hitStopDuration)
+        {
+            float t = hitstopCurve.Evaluate(timer / hitStopDuration);
+            Time.timeScale = Mathf.Lerp(Time.timeScale, originalTimeScale, t);
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = originalTimeScale;
+        isHitStop = false;
+    }
+    private void SetTint(Material material, bool enable)
+    {
+        if (material == null) return;
+        if (enable)
+        {
+            material.color = Color.Lerp(material.color, enemyDetectionColor, tintLevel);
+        } else
+        {
+            material.color = Color.white;
         }
 
     }
