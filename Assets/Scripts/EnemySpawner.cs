@@ -18,21 +18,24 @@ public class EnemySpawner : MonoBehaviour
     
     [SerializeField] private int startTime = 0;
     [SerializeField] private int spawnOnBeatInterval = 1;
-    [SerializeField] private int BeatsPerSpawn = 0;
+    [SerializeField] private int BeatsPerSpawn = 4;
+
+
     private int _initBeats;
 
-    [SerializeField] private bool isMainSpawner;
+
+    private int levelNumber = 1;
+
+    [SerializeField] private bool isMainSpawner; // set in the inspector, this is used to determine whether or not the spawner is the main one.
 
 
     private void Start()
     {
         _initBeats = BeatsPerSpawn;
         AudioManager.OnBeat += HandleBeat;
+        AudioManager.OnGameVictory += HandleVictory;
     }
-    public void CancelSpawn()
-    {
-        CancelInvoke("SpawnEnemyPrefab");
-    }
+
     private void HandleBeat(int beatNumber, bool isFirstSpawner)
     {
         if (beatNumber >= startTime && (beatNumber - startTime) % spawnOnBeatInterval == 0)
@@ -40,37 +43,91 @@ public class EnemySpawner : MonoBehaviour
             if (isMainSpawner && isFirstSpawner || !isMainSpawner && !isFirstSpawner)
             {
                 BeatsPerSpawn--;
-                if (BeatsPerSpawn <= 0)
+                if (startTime <= 0 && BeatsPerSpawn <= 0)
                 {
-                    SpawnEnemyPrefab();
                     BeatsPerSpawn = _initBeats;
+                    switch (levelNumber)
+                    {
+                        case 1:
+                            SpawnEnemyPrefab1();
+                            break;
+                        case 2:
+                            SpawnEnemyPrefab2();
+                            break;
+                        case 3:
+                            SpawnEnemyPrefab3();
+                            break;
+                        default:
+                            Debug.LogWarning("No enemy prefab defined for level " + levelNumber);
+                            break;
+                    }
                 }
             }
         }
     }
-
-
-    private void SpawnEnemyPrefab()
+    private void HandleVictory()
     {
+        levelNumber++; // this will increment every time the player wins a level starting at 1
+    }
 
-        int enemySelection = Random.Range(0, 100); // hopefully going to be used to spawn enemies on a weighted average
 
+    private int SelectPrefabNumber()
+    {
+        return Random.Range(0, 100); // hopefully going to be used to spawn enemies on a weighted average
+  
+    }
+
+    private void SpawnEnemyPrefab1() {
+        int enemySelection = SelectPrefabNumber();
         GameObject enemy;
 
-        if (enemySelection <= 10)
+        if (enemySelection < 70)
         {
-           enemy = Instantiate(enemyPrefabElite, gameObject.transform.position, Quaternion.identity);
-        } else if (enemySelection > 10 && enemySelection <= 30)
+            enemy = Instantiate(enemyPrefabWeak, transform.position, Quaternion.identity);
+        }
+        else
         {
-            enemy = Instantiate(enemyPrefabNormal, gameObject.transform.position, Quaternion.identity);
-        } else
-        {
-            enemy = Instantiate(enemyPrefabWeak, gameObject.transform.position, Quaternion.identity);
+            enemy = Instantiate(enemyPrefabNormal, transform.position, Quaternion.identity);
         }
         enemy.transform.SetParent(transform);
-        
+
         EnemyController enemyController = enemy.GetComponent<EnemyController>();
         enemyController.moveDir = moveDir;
+    }
+    private void SpawnEnemyPrefab2()
+    {
+        int enemySelection = SelectPrefabNumber();
+        GameObject enemy;
+
+        if (enemySelection < 50)
+        {
+            enemy = Instantiate(enemyPrefabWeak, transform.position, Quaternion.identity);
+        }
+        else if (enemySelection < 90)
+        {
+            enemy = Instantiate(enemyPrefabNormal, transform.position, Quaternion.identity);
+        } else
+        {
+            enemy = Instantiate(enemyPrefabElite, transform.position, Quaternion.identity);
+        }
+    }
+    private void SpawnEnemyPrefab3()
+    {
+        int enemySelection = SelectPrefabNumber();
+        GameObject enemy;
+
+        if (enemySelection < 30)
+        {
+            enemy = Instantiate(enemyPrefabWeak, transform.position, Quaternion.identity);
+        }
+        else if (enemySelection < 70)
+        {
+            enemy = Instantiate(enemyPrefabNormal, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            enemy = Instantiate(enemyPrefabElite, transform.position, Quaternion.identity);
+        }
     }
 
 }

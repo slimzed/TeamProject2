@@ -6,9 +6,10 @@ public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] private float attackCooldown = 0f;
     [SerializeField] private float hitStopDuration = 0.5f;
+    [SerializeField] private GameObject targetingIndicator;
 
     private AnimationCurve hitstopCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // used for hit stop, not implemented yet
-    private Color enemyDetectionColor = Color.blue;
+    private Color enemyDetectionColor = Color.green;
     [SerializeField] private float tintLevel = 0.2f;
 
 
@@ -87,7 +88,7 @@ public class NewBehaviourScript : MonoBehaviour
         if (currentEnemy == null && collidedEnemies.Count > 0)
         {
             currentEnemy = collidedEnemies[^1]; // Using index from end operator
-            SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true);
+            TurnOnTarget(currentEnemy.transform, true);
         }
     }
     private void ComboDetectionFunction() 
@@ -147,7 +148,7 @@ public class NewBehaviourScript : MonoBehaviour
                         {
                             currentEnemy = collidedEnemies[collidedEnemies.Count-2];
                             ResetInputArrow(currentEnemy.gameObject);
-                            SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true);
+                            TurnOnTarget(currentEnemy.transform, true);
                         } else
                         {
                             currentEnemy = null;
@@ -234,7 +235,6 @@ public class NewBehaviourScript : MonoBehaviour
             source.Play();
             
             Vector2 hitPoint = collision.contacts[0].point;
-
             Vector2 localHit = transform.InverseTransformDirection(hitPoint);
 
             if (localHit.x > 0)
@@ -251,12 +251,12 @@ public class NewBehaviourScript : MonoBehaviour
 
             if (collidedEnemies.Count > 1)
             {
-                SetTint(collidedEnemies[collidedEnemies.Count - 2].GetComponent<SpriteRenderer>().material, false); // disables the emission of the previous enemy
-                SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true); // enables the emission of the current enemy
+                TurnOnTarget(collidedEnemies[collidedEnemies.Count - 2].transform, false); // disables the emission of the previous enemy
+                TurnOnTarget(currentEnemy.transform, true); // enables the emission of the current enemy
             } else
             {
-                SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true); // enables the emission of the current enemy
-            }
+                TurnOnTarget(currentEnemy.transform, true); // enables the emission of the current enemy
+            }   
 
 
 
@@ -286,17 +286,31 @@ public class NewBehaviourScript : MonoBehaviour
         Time.timeScale = originalTimeScale;
         isHitStop = false;
     }
-    private void SetTint(Material material, bool enable)
+    private void TurnOnTarget(Transform parent, bool enable)
     {
-        if (material == null) return;
+        // basically im just looping through all children of the parent and checking their tags so that i can change their sprite color
+        if (parent == null) return;
         if (enable)
         {
-            material.color = Color.Lerp(material.color, enemyDetectionColor, tintLevel);
-        } else
-        {
-            material.color = Color.white;
+            foreach (Transform child in parent)
+            {
+                if (child.CompareTag("Target"))
+                {
+                    child.gameObject.SetActive(true);
+                }
+            }
         }
-
+        else
+        {
+            foreach (Transform child in parent)
+            {
+                if (child.CompareTag("Target"))
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+        }
+            
     }
 
     private void RemoveInputArrow(GameObject parentArrow)

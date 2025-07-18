@@ -28,7 +28,13 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        if (nextIndex >= songBeatData.beats.Count) { OnGameVictory?.Invoke(); return; }
+
+        if (nextIndex >= songBeatData.beats.Count) 
+        { 
+            Invoke("WinGame", 2f); return; 
+        }
+
+
         if (Time.time >= songBeatData.beats[nextIndex].time) // checks if the time is greater than the next beat index
         {
             bool isFirstSpawner = nextIndex % 2 == 0; // basically just alternates the bool depending on odd or even beats 
@@ -61,5 +67,8 @@ public class AudioManager : MonoBehaviour
         return currentbeat;
     }
 
-
+    private void WinGame()
+    {
+        OnGameVictory?.Invoke();
+    }
 }
