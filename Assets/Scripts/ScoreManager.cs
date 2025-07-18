@@ -37,6 +37,7 @@ public class ScoreManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         UpdateUI();
+        AudioManager.OnGameVictory += ResetAllStats; // Reset combo on game victory
     }
     private void Update()
     {
@@ -154,11 +155,25 @@ public class ScoreManager : MonoBehaviour
         if (scoreText == null)
         {
             scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+            if (scoreText == null)
+            {
+                Debug.LogError("ScoreText not found in the scene, please create a TextMeshPro element with the name 'ScoreText'");
+            }
         }
         if (comboText == null)
         {
             comboText = GameObject.Find("ComboText").GetComponent<TextMeshProUGUI>();
+            if (comboText == null)
+            {
+                Debug.LogError("ComboText not found in the scene, please create a TextMeshPro element with the name 'ComboText'");
+            }
         }
+    }
+    private void ResetAllStats()
+    {
+        Score = 250; // Reset score to initial value
+        ResetCombo(); // Reset combo
+        UpdateUI(); // Update UI elements
     }
     private void PlayComboAnimation()
     {
