@@ -223,10 +223,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 2
   explosionParticles: {fileID: 6246213836065135713, guid: 5eed538ba96b7804e901fbc6b86e445d, type: 3}
-  enemyMovementSpeed: 1
+  enemyMovementSpeed: 3
   moveDir: -1
   enemyLifeSpan: 5
-  beatMoveTime: 0.15
+  beatMoveTime: 0.45
+  scoreValue: 100
 --- !u!50 &1183975085536636267
 Rigidbody2D:
   serializedVersion: 4

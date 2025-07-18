@@ -45,6 +45,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] public int moveDir = -1;
     [SerializeField] private float enemyLifeSpan = 1f; // how long the enemy will live before it is destroyed
     [SerializeField] private float beatMoveTime = 0.15f;
+    [SerializeField] public int scoreValue = 50;
+
 
 
     // change from enemy to enemy
@@ -149,10 +151,10 @@ public class EnemyController : MonoBehaviour
         yield return StartCoroutine(ShowExplosionParticles());
         if (playerKill)
         {
-            ScoreManager.Instance.AddToScore(100); // Add score for killing the enemy
+            ScoreManager.Instance.AddToScore(scoreValue); // Add score for killing the enemy
         } else
         {
-            ScoreManager.Instance.AddToScore(-50); // adds a penalty to the score if the enemy is not killed in time
+            ScoreManager.Instance.AddToScore(scoreValue); // adds a penalty to the score if the enemy is not killed in time
         }
     }
 

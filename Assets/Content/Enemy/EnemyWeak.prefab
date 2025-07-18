@@ -142,6 +142,7 @@ MonoBehaviour:
   moveDir: -1
   enemyLifeSpan: 1
   beatMoveTime: 0.15
+  scoreValue: 25
 --- !u!50 &6142869454587439163
 Rigidbody2D:
   serializedVersion: 4

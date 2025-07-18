@@ -140,6 +140,7 @@ public class NewBehaviourScript : MonoBehaviour
                     if (currentComboIndex == comboSequence.Length)
                     {
                         Debug.Log("Full combo executed! Killing enemy");
+                        ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
                         currentEnemy.KillEnemy(true);
 
                         if (collidedEnemies.Count > 1)
@@ -155,7 +156,6 @@ public class NewBehaviourScript : MonoBehaviour
 
 
                         lastAttackTime = Time.time;
-                        ScoreManager.Instance.AddToScore(50);
                         ResetCombo();
                     }
                 }
@@ -163,9 +163,10 @@ public class NewBehaviourScript : MonoBehaviour
                 {
                     Debug.Log("incorrect input");
                     currentEnemy.gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
-                    ScoreManager.Instance.AddToScore(-25);
+                    ScoreManager.Instance.AddToScore(currentEnemy.scoreValue * -1);
                     ResetInputArrow(currentEnemy.gameObject);
                     ScoreManager.Instance.ResetCombo();
+                    ResetCombo();
                     source.clip = failure;
                     source.Play();
                 }
