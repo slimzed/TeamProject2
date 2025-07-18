@@ -18,6 +18,7 @@ public class NewBehaviourScript : MonoBehaviour
     private float comboTimer = 0; // internal timer to track how long the combo has been active
     [Tooltip("This determines how long the combo will last after the first input")]
     [SerializeField] private float comboTime = 0.5f; // decides how long the combo will last after the first input
+    [Tooltip("This determines how long after the beat the player has to input the combo")]
 
 
     private float lastAttackTime = -Mathf.Infinity; // input track for debounce
@@ -28,6 +29,7 @@ public class NewBehaviourScript : MonoBehaviour
     private bool isRight = false;
     private bool isEnemyRight = false;
     private bool isHitStop = false;
+    private bool canCombo = false;
 
 
     /// <summary>
@@ -47,6 +49,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         ScriptCalls = GameObject.Find("ScriptCalls");
         source = ScriptCalls.GetComponent<AudioSource>();
+        AudioManager.OnBeat += HandleBeat;
     }
 
     void Update()
@@ -58,6 +61,26 @@ public class NewBehaviourScript : MonoBehaviour
         ComboDetectionFunction();
     }
 
+    /// <summary>
+    /// The following functions handle beat detection, flipping a bool on and off based around a combo detection window.
+    /// </summary>
+    /// <param name="beatNumber"></param>
+    /// <param name="isFirstSpawner"></param>
+    private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
+    {
+        Debug.Log($"Beat {beatNumber}");
+        StartCoroutine(BeatComboDetectionRoutine(beatTimeDifference/2));
+
+    }
+    private IEnumerator BeatComboDetectionRoutine(float beatWindow)
+    {
+        canCombo = true;
+
+        yield return new WaitForSeconds(beatWindow);
+        canCombo = false;
+        Debug.Log("combo detection ended");
+
+    }
 
     private void ApplyPlayerSpriteDirection()
     {
@@ -98,21 +121,7 @@ public class NewBehaviourScript : MonoBehaviour
     private void ComboDetectionFunction() 
     {
 
-        if (currentComboIndex > 0)
-        {
-            comboTimer -= Time.deltaTime;
-            if (comboTimer <= 0)
-            {
-                Debug.Log("Combo failed! Time ran out.");
-                ResetInputArrow(currentEnemy.gameObject);
-                
-                source.clip = failure;
-                source.Play();
-                
-                ResetCombo();
-                ScoreManager.Instance.ResetCombo(); // resets the comboText
-            }
-        }
+
 
         if (currentEnemy != null && Time.time >= lastAttackTime + attackCooldown) // the enemy exists and the cd is over 
         {
@@ -126,38 +135,46 @@ public class NewBehaviourScript : MonoBehaviour
                         requiredKey = comboSequence[currentComboIndex];
                     }
 
-                    if (currentInputKey == requiredKey)
+                    if (currentInputKey == requiredKey) // checks if input is correct and within the detection time window
                     {
-                        Debug.Log("Correct combo input: " + requiredKey);
-                        currentComboIndex++;
-                        comboTimer = comboTime;
-                        lastAttackTime = Time.time;
-
-                        ApplyEnemySpriteHit();
-                        RemoveInputArrow(currentEnemy.gameObject);
-                        ScoreManager.Instance.IncreaseCombo();
+                        if (canCombo)
+                        {
+                            Debug.Log("Correct combo input: " + requiredKey);
+                            currentComboIndex++;
+                            comboTimer = comboTime;
+                            lastAttackTime = Time.time;
+                            ApplyEnemySpriteHit();
+                            RemoveInputArrow(currentEnemy.gameObject);
+                            ScoreManager.Instance.IncreaseCombo();
+                        } else
+                        {
+                            Debug.Log("combo input outside of beat window, nothing happens though");
+                            ScoreManager.Instance.AddToScore(-20); // adding an arbitrary penalty for inputting outside of window
+                        }
 
 
                         if (currentComboIndex == comboSequence.Length)
+                    {
+                        Debug.Log("Full combo executed! Killing enemy");
+                        ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
+                        currentEnemy.KillEnemy(false); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
+
+                        if (collidedEnemies.Count > 1)
                         {
-                            Debug.Log("Full combo executed! Killing enemy");
-                            currentEnemy.KillEnemy(true); // kill enemy with a positive score value
-
-                            if (collidedEnemies.Count > 1)
-                            {
-                                currentEnemy = collidedEnemies[collidedEnemies.Count-2];
-                                ResetInputArrow(currentEnemy.gameObject);
-                                TurnOnTarget(currentEnemy.transform, true); // targets the next enemy in the list of collided enemies 
-                            } else
-                            {
-                                currentEnemy = null;
-                            }
-
-
-
-                            lastAttackTime = Time.time;
-                            ResetCombo();
+                            currentEnemy = collidedEnemies[collidedEnemies.Count - 2];
+                            ResetInputArrow(currentEnemy.gameObject);
+                            TurnOnTarget(currentEnemy.transform, true); // targets the next enemy in the list of collided enemies 
                         }
+                        else
+                        {
+                            currentEnemy = null;
+                        }
+
+
+
+                        lastAttackTime = Time.time;
+                        ResetCombo();
+                    }
                     }
                     else
                     {

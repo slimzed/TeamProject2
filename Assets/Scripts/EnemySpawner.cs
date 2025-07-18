@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     
     [SerializeField] private int startTime = 0;
     [SerializeField] private int spawnOnBeatInterval = 1;
-    [SerializeField] private int BeatsPerSpawn = 4;
+    [SerializeField] private int BeatsPerSpawn = 16;
 
 
     private int _initBeats;
@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
         AudioManager.OnGameVictory += HandleVictory;
     }
 
-    private void HandleBeat(int beatNumber, bool isFirstSpawner)
+    private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
     {
         if (beatNumber >= startTime && (beatNumber - startTime) % spawnOnBeatInterval == 0)
         {
