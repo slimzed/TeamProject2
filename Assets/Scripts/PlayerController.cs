@@ -36,6 +36,7 @@ public class NewBehaviourScript : MonoBehaviour
     /// The following variables refer to Audio/Script calls.
     /// </summary>
     private GameObject ScriptCalls;
+    private GameObject BeatIndicatorOnPlayer;
     private AudioSource source;
 
     [SerializeField] private AudioClip failure;
@@ -49,7 +50,10 @@ public class NewBehaviourScript : MonoBehaviour
     {
         ScriptCalls = GameObject.Find("ScriptCalls");
         source = ScriptCalls.GetComponent<AudioSource>();
+        BeatIndicatorOnPlayer = gameObject.transform.Find("BeatIndicator").gameObject;
+        BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red;
         AudioManager.OnBeat += HandleBeat;
+
     }
 
     void Update()
@@ -69,6 +73,7 @@ public class NewBehaviourScript : MonoBehaviour
     private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
     {
         Debug.Log($"Beat {beatNumber}");
+        BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.green;
         StartCoroutine(BeatComboDetectionRoutine(beatTimeDifference/2));
 
     }
@@ -77,6 +82,7 @@ public class NewBehaviourScript : MonoBehaviour
         canCombo = true;
 
         yield return new WaitForSeconds(beatWindow);
+        BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red; // resets the color of the beat indicator
         canCombo = false;
         Debug.Log("combo detection ended");
 
