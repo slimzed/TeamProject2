@@ -145,8 +145,20 @@ public class ScoreManager : MonoBehaviour
 
     private void UpdateUI()
     {
+        CheckText();
         scoreText.text = "Score: " + Score.ToString();
         comboText.text = "Combo: " + currentCombo.ToString();
+    }
+    private void CheckText()
+    {
+        if (scoreText == null)
+        {
+            scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        }
+        if (comboText == null)
+        {
+            comboText = GameObject.Find("ComboText").GetComponent<TextMeshProUGUI>();
+        }
     }
     private void PlayComboAnimation()
     {

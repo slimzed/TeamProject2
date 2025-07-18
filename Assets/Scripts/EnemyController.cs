@@ -158,9 +158,8 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator ShowExplosionParticles()
     {
-        GameObject explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);   
+        GameObject explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.4f);
-        Destroy(explosion);
     }
 
     private IEnumerator EnemyColorLerpSequence()
