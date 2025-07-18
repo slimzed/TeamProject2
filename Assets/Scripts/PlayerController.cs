@@ -70,15 +70,25 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void CleanUpEnemies()
     {
-        collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy); // stack overflow code lol, cleans up all enemies once they are destroyed
+        // Remove null or inactive enemies
+        collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
 
-
+        // Handle overflow
         if (collidedEnemies.Count > 4)
         {
-            collidedEnemies[0].KillEnemy(false);
-            collidedEnemies.RemoveAt(0); // removes the last enemy
-
+            if (collidedEnemies[0] != null)
+            {
+                collidedEnemies[0].KillEnemy(false);
+            }
+            collidedEnemies.RemoveAt(0);
             ScoreManager.Instance.AddToScore(-50);
+        }
+
+        // Update current enemy reference
+        if (currentEnemy == null && collidedEnemies.Count > 0)
+        {
+            currentEnemy = collidedEnemies[^1]; // Using index from end operator
+            SetTint(currentEnemy.GetComponent<SpriteRenderer>().material, true);
         }
     }
     private void ComboDetectionFunction() 
