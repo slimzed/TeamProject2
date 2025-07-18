@@ -10,19 +10,19 @@ public class ComboDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        ComboSystem.Instance.ResetCombo();
+        ScoreManager.Instance.ResetCombo();
         UpdateComboDisplay(0);
     }
 
     private void Start()
     {
-        ComboSystem.Instance.ResetCombo();
+        ScoreManager.Instance.ResetCombo();
         UpdateComboDisplay(0);
     }
 
     private void Update()
     {
-        int currentCombo = ComboSystem.Instance.GetCurrentCombo();
+        int currentCombo = ScoreManager.Instance.GetCurrentCombo();
         UpdateComboDisplay(currentCombo);
     }
 

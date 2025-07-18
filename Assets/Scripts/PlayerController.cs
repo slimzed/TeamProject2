@@ -109,6 +109,7 @@ public class NewBehaviourScript : MonoBehaviour
                 source.clip = failure;
                 source.Play();
                 ResetCombo();
+                ScoreManager.Instance.ResetCombo(); // resets the comboText
             }
         }
 
@@ -133,6 +134,8 @@ public class NewBehaviourScript : MonoBehaviour
 
                     ApplyEnemySpriteHit();
                     RemoveInputArrow(currentEnemy.gameObject);
+                    ScoreManager.Instance.IncreaseCombo();
+
 
                     if (currentComboIndex == comboSequence.Length)
                     {
@@ -162,6 +165,7 @@ public class NewBehaviourScript : MonoBehaviour
                     currentEnemy.gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
                     ScoreManager.Instance.AddToScore(-25);
                     ResetInputArrow(currentEnemy.gameObject);
+                    ScoreManager.Instance.ResetCombo();
                     source.clip = failure;
                     source.Play();
                 }
@@ -255,7 +259,7 @@ public class NewBehaviourScript : MonoBehaviour
 
 
 
-                comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
+            comboSequence = collision.gameObject.GetComponent<EnemyController>().ComboSequence; // accesses the combo sequence of the enemy 
         }
 
     }
