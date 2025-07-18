@@ -9,10 +9,13 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
     public static Action OnGameOver;
+    
     private int _score = 250;
+    private int lives = 15;
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
+    [SerializeField] private TextMeshProUGUI livesText;
     [SerializeField] private Animator comboAnimator;
 
 
@@ -154,6 +157,7 @@ public class ScoreManager : MonoBehaviour
         CheckText();
         scoreText.text = "Score: " + Score.ToString();
         comboText.text = "Combo: " + currentCombo.ToString();
+        livesText.text = "Lives: " + lives.ToString();  
     }
     private void CheckText()
     {
@@ -173,6 +177,14 @@ public class ScoreManager : MonoBehaviour
                 Debug.LogError("ComboText not found in the scene, please create a TextMeshPro element with the name 'ComboText'");
             }
         }
+        if (livesText == null)
+        {
+            livesText = GameObject.Find("LivesText").GetComponent<TextMeshProUGUI>();
+            if (livesText == null)
+            {
+                Debug.LogError("LivesText not found in the scene, please create a TextMeshPro element with the name 'LivesText'");
+            }
+        }
     }
     private void ResetAllStats()
     {
@@ -184,5 +196,17 @@ public class ScoreManager : MonoBehaviour
     {
         if (comboAnimator == null) return;
         comboAnimator.SetTrigger("Pulse");
+    }
+
+
+    public void SubtractLives()
+    {
+        Debug.Log("lives subtracted");
+        lives--;
+        if (lives <= 0)
+        {
+            OnGameOver?.Invoke();
+        }
+        UpdateUI();    
     }
 }

@@ -85,7 +85,7 @@ public class NewBehaviourScript : MonoBehaviour
                 collidedEnemies[0].KillEnemy(false);
             }
             collidedEnemies.RemoveAt(0);
-            ScoreManager.Instance.AddToScore(-50);
+            ScoreManager.Instance.SubtractLives();
         }
 
         // Update current enemy reference
@@ -104,13 +104,16 @@ public class NewBehaviourScript : MonoBehaviour
             if (comboTimer <= 0)
             {
                 Debug.Log("Combo failed! Time ran out.");
-                ResetInputArrow(currentEnemy.gameObject);
-                
-                source.clip = failure;
-                source.Play();
-                
-                ResetCombo();
-                ScoreManager.Instance.ResetCombo(); // resets the comboText
+                if (currentEnemy != null)
+                {
+                    ResetInputArrow(currentEnemy.gameObject);
+
+                    source.clip = failure;
+                    source.Play();
+
+                    ResetCombo();
+                    ScoreManager.Instance.ResetCombo(); // resets the comboText
+                }
             }
         }
 
@@ -142,8 +145,9 @@ public class NewBehaviourScript : MonoBehaviour
                         {
                             Debug.Log("Full combo executed! Killing enemy");
                             currentEnemy.KillEnemy(true); // kill enemy with a positive score value
+                            ScoreManager.Instance.AddToScore(currentEnemy.scoreValue); // adds score for killing the enemy
 
-                            if (collidedEnemies.Count > 1)
+                        if (collidedEnemies.Count > 1)
                             {
                                 currentEnemy = collidedEnemies[collidedEnemies.Count-2];
                                 ResetInputArrow(currentEnemy.gameObject);
@@ -162,7 +166,7 @@ public class NewBehaviourScript : MonoBehaviour
                     else
                     {
                         Debug.Log("incorrect input");
-                        ScoreManager.Instance.AddToScore(currentEnemy.scoreValue * -1);
+                        ScoreManager.Instance.SubtractLives();
                         
                         ResetInputArrow(currentEnemy.gameObject);
                         ScoreManager.Instance.ResetCombo();

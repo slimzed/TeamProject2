@@ -148,19 +148,18 @@ public class EnemyController : MonoBehaviour
     private IEnumerator EnemyKillSequence(bool playerKill) // accessed by the enemy itself
     {
         Destroy(gameObject);
-        yield return StartCoroutine(ShowExplosionParticles());
-        if (playerKill)
-        {
-            ScoreManager.Instance.AddToScore(scoreValue); // Add score for killing the enemy
-        } else
-        {
-            ScoreManager.Instance.AddToScore(scoreValue); // adds a penalty to the score if the enemy is not killed in time
-        }
+        yield return StartCoroutine(ShowExplosionParticles(playerKill));
+
     }
 
-    private IEnumerator ShowExplosionParticles()
+    private IEnumerator ShowExplosionParticles(bool playerKill)
     {
         GameObject explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);
+        if (!playerKill)
+        {
+            Debug.Log("subtracting lives");
+            ScoreManager.Instance.SubtractLives();
+        }
         yield return new WaitForSeconds(0.4f);
     }
 
