@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
+/// <summary>
+/// This script is unused currently. It serves as a display for the combo system implemented within the ScoreManager singleton. 
+/// </summary>
 public class ComboDisplay : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI comboText;

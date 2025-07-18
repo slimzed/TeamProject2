@@ -77,6 +77,9 @@ public class EnemySpawner : MonoBehaviour
   
     }
 
+    /// <summary>
+    /// The scripts below calculate weighted randoms to determine which enemy prefab to spawn based around the given level.
+    /// </summary>
     private void SpawnEnemyPrefab1() {
         int enemySelection = SelectPrefabNumber();
         GameObject enemy;

@@ -5,30 +5,34 @@ using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] private float attackCooldown = 0f;
-    [SerializeField] private float hitStopDuration = 0.5f;
     [SerializeField] private GameObject targetingIndicator;
 
-    private AnimationCurve hitstopCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // used for hit stop, not implemented yet
-    private Color enemyDetectionColor = Color.green;
-    [SerializeField] private float tintLevel = 0.2f;
+
+    [SerializeField] private float hitStopDuration = 0.5f;
+    private AnimationCurve hitstopCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
 
 
     private KeyCode[] comboSequence = { KeyCode.UpArrow, KeyCode.None, KeyCode.DownArrow};
     private int currentComboIndex = 0;
-    [SerializeField] private float comboTime = 0.5f;
-    private float comboTimer = 0;
+    private float comboTimer = 0; // internal timer to track how long the combo has been active
+    [Tooltip("This determines how long the combo will last after the first input")]
+    [SerializeField] private float comboTime = 0.5f; // decides how long the combo will last after the first input
 
-    private float lastAttackTime = -Mathf.Infinity;
+
+    private float lastAttackTime = -Mathf.Infinity; // input track for debounce
 
     private List<EnemyController> collidedEnemies = new List<EnemyController>();
     private EnemyController currentEnemy;
 
     private bool isRight = false;
     private bool isEnemyRight = false;
-    private bool isHitStop = false; // used for hit stop, not implemented yet
+    private bool isHitStop = false;
 
 
-    // script calls
+    /// <summary>
+    /// The following variables refer to Audio/Script calls.
+    /// </summary>
     private GameObject ScriptCalls;
     private AudioSource source;
 
@@ -93,11 +97,6 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void ComboDetectionFunction() 
     {
-        Color defaultColor = Color.white;
-        if (currentEnemy != null)
-        {
-            defaultColor = currentEnemy.enemyColor;
-        }
 
         if (currentComboIndex > 0)
         {
@@ -105,73 +104,74 @@ public class NewBehaviourScript : MonoBehaviour
             if (comboTimer <= 0)
             {
                 Debug.Log("Combo failed! Time ran out.");
-                currentEnemy.GetComponent<SpriteRenderer>().color = defaultColor;
                 ResetInputArrow(currentEnemy.gameObject);
+                
                 source.clip = failure;
                 source.Play();
+                
                 ResetCombo();
                 ScoreManager.Instance.ResetCombo(); // resets the comboText
             }
         }
 
-        if (currentEnemy != null && Time.time >= lastAttackTime + attackCooldown)
+        if (currentEnemy != null && Time.time >= lastAttackTime + attackCooldown) // the enemy exists and the cd is over 
         {
             KeyCode currentInputKey = CheckAndAnimateInput();
 
                 if (currentInputKey != KeyCode.None)
-            {
-                KeyCode requiredKey = KeyCode.None;
-                if (currentComboIndex < comboSequence.Length)
                 {
-                    requiredKey = comboSequence[currentComboIndex];
-                }
-
-                if (currentInputKey == requiredKey)
-                {
-                    Debug.Log("Correct combo input: " + requiredKey);
-                    currentComboIndex++;
-                    comboTimer = comboTime;
-                    lastAttackTime = Time.time;
-
-                    ApplyEnemySpriteHit();
-                    RemoveInputArrow(currentEnemy.gameObject);
-                    ScoreManager.Instance.IncreaseCombo();
-
-
-                    if (currentComboIndex == comboSequence.Length)
+                    KeyCode requiredKey = KeyCode.None;
+                    if (currentComboIndex < comboSequence.Length)
                     {
-                        Debug.Log("Full combo executed! Killing enemy");
-                        ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
-                        currentEnemy.KillEnemy(true);
+                        requiredKey = comboSequence[currentComboIndex];
+                    }
 
-                        if (collidedEnemies.Count > 1)
-                        {
-                            currentEnemy = collidedEnemies[collidedEnemies.Count-2];
-                            ResetInputArrow(currentEnemy.gameObject);
-                            TurnOnTarget(currentEnemy.transform, true);
-                        } else
-                        {
-                            currentEnemy = null;
-                        }
-
-
-
+                    if (currentInputKey == requiredKey)
+                    {
+                        Debug.Log("Correct combo input: " + requiredKey);
+                        currentComboIndex++;
+                        comboTimer = comboTime;
                         lastAttackTime = Time.time;
+
+                        ApplyEnemySpriteHit();
+                        RemoveInputArrow(currentEnemy.gameObject);
+                        ScoreManager.Instance.IncreaseCombo();
+
+
+                        if (currentComboIndex == comboSequence.Length)
+                        {
+                            Debug.Log("Full combo executed! Killing enemy");
+                            currentEnemy.KillEnemy(true); // kill enemy with a positive score value
+
+                            if (collidedEnemies.Count > 1)
+                            {
+                                currentEnemy = collidedEnemies[collidedEnemies.Count-2];
+                                ResetInputArrow(currentEnemy.gameObject);
+                                TurnOnTarget(currentEnemy.transform, true); // targets the next enemy in the list of collided enemies 
+                            } else
+                            {
+                                currentEnemy = null;
+                            }
+
+
+
+                            lastAttackTime = Time.time;
+                            ResetCombo();
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("incorrect input");
+                        ScoreManager.Instance.AddToScore(currentEnemy.scoreValue * -1);
+                        
+                        ResetInputArrow(currentEnemy.gameObject);
+                        ScoreManager.Instance.ResetCombo();
                         ResetCombo();
+                        
+                        source.clip = failure;
+                        source.Play();
                     }
                 }
-                else
-                {
-                    Debug.Log("incorrect input");
-                    currentEnemy.gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
-                    ScoreManager.Instance.AddToScore(currentEnemy.scoreValue * -1);
-                    ResetInputArrow(currentEnemy.gameObject);
-                    ScoreManager.Instance.ResetCombo();
-                    ResetCombo();
-                    source.clip = failure;
-                    source.Play();
-                }
-            }
         }
     }
 
@@ -229,7 +229,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Enemy") && !collidedEnemies.Contains(collision.gameObject.GetComponent<EnemyController>()))
+        if (collision.transform.CompareTag("Enemy"))
         {
             source.clip = enemyCollision;
             source.Play();

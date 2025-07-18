@@ -311,7 +311,7 @@ MonoBehaviour:
   enemyMovementSpeed: 3
   moveDir: -1
   enemyLifeSpan: 5
-  beatMoveTime: 0.45
+  beatMoveTime: 0.15
   scoreValue: 100
 --- !u!50 &1183975085536636267
 Rigidbody2D:

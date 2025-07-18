@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// This script is unused currently. It serves as a template for a combo system that is implemented within the ScoreManager singleton.
+/// </summary>
 public class ComboSystem : MonoBehaviour
 {
     public static ComboSystem Instance { get; private set; }
