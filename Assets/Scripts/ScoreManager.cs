@@ -134,9 +134,14 @@ public class ScoreManager : MonoBehaviour
 
     public void AddToScore(int score)
     {
-        score *= (int) GetScoreMultiplier();
-        Debug.Log(score);
-        Score += score;
+        int comboScore = score * (int) GetScoreMultiplier();
+        if (score < 0)
+        {
+            Score += score;
+        } else
+        {
+            Score += comboScore;
+        }
         if (Score <= 0)
         {
             Score = 0;
