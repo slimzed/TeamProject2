@@ -32,4 +32,8 @@ public class LevelLoader : MonoBehaviour
             Debug.LogWarning("No more scenes to load.");
         }   
     }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

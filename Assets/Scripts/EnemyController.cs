@@ -12,7 +12,7 @@ public enum EnemyType
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyType enemyType;
+    [SerializeField] public EnemyType enemyType;
 
     [SerializeField] private GameObject explosionParticles;
 
@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour
     {
         get
         {
-            switch(enemyType)
+            switch (enemyType)
             {
                 case EnemyType.Weak:
                     return Color.grey;
@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
                     return Color.blue;
                 default:
                     return Color.white; // Fallback color
-            }   
+            }
         }
         private set
         {
@@ -38,8 +38,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    
-    
+    private AudioManager audioManager;
+
+
     [SerializeField] private float enemyMovementSpeed = 2f;
     [Tooltip("-1 for left, 1 for right")]
     [SerializeField] public int moveDir = -1;
@@ -66,6 +67,7 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody2D>();
         startPos = rb.position;
         endPos = rb.position;
@@ -73,14 +75,15 @@ public class EnemyController : MonoBehaviour
         {
             midInput = KeyCode.LeftArrow;
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
-        } else if (moveDir == -1)
+        }
+        else if (moveDir == -1)
         {
             midInput = KeyCode.RightArrow;
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
         isMoving = true;
         InitializeEnemyCombos(enemyType); // enemy type is set within the editor
-        AudioManager.OnBeat += HandleBeat; 
+        audioManager.OnBeat += HandleBeat;
 
     }
 
@@ -95,7 +98,7 @@ public class EnemyController : MonoBehaviour
             Vector2 desiredPos = Vector2.Lerp(startPos, endPos, locationOnCurve);
             rb.MovePosition(desiredPos);
 
-            if (t>= 1f) // checks if the lerp is done
+            if (t >= 1f) // checks if the lerp is done
             {
                 rb.MovePosition(endPos);
                 startPos = endPos; // sets the start position to the end position so that it can move again
@@ -105,9 +108,10 @@ public class EnemyController : MonoBehaviour
 
     private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
     {
+        startPos = endPos;
         moveStartTime = Time.time;
         endPos = startPos + CalcMovement();
-    }   
+    }
 
     private Vector2 CalcMovement()
     {
@@ -125,9 +129,9 @@ public class EnemyController : MonoBehaviour
             StartCoroutine(EnemyColorLerpSequence());
         }
     }
-    private void InitializeEnemyCombos(EnemyType enemyType)
+    public void InitializeEnemyCombos(EnemyType enemyType)
     {
-        switch (enemyType) 
+        switch (enemyType)
         {
             case EnemyType.Weak:
                 requiredSequence = new KeyCode[] { KeyCode.DownArrow, KeyCode.UpArrow };

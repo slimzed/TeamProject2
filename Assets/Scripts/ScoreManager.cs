@@ -32,7 +32,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(gameObject);
         }
         else
         {
@@ -189,6 +189,7 @@ public class ScoreManager : MonoBehaviour
     private void ResetAllStats()
     {
         Score = 250; // Reset score to initial value
+        lives = 15;
         ResetCombo(); // Reset combo
         UpdateUI(); // Update UI elements
     }
@@ -206,6 +207,7 @@ public class ScoreManager : MonoBehaviour
         if (lives <= 0)
         {
             OnGameOver?.Invoke();
+            ResetAllStats();
         }
         UpdateUI();    
     }

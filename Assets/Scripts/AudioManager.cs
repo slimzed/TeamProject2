@@ -1,70 +1,110 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     private AudioSource audioSource;
-    public SongBeatData songBeatData; // this handles the location of beats n shi
+    public SongBeatData songBeatData;
 
     private int nextIndex;
-    private float lastBeatTime;
     private float songTime;
+    private double songStartTimeDSP;
 
     public delegate void OnBeatAction(int beatNumber, bool isFirstSpawner, float beatTimeDifference);
-    public static event OnBeatAction OnBeat;
-    public static Action OnGameVictory;
+    public event OnBeatAction OnBeat;
+    public static event Action OnGameVictory;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            enabled = false;
+            return;
+        }
+
+        if (songBeatData == null || songBeatData.songClip == null)
+        {
+            enabled = false;
+            return;
+        }
+
         audioSource.clip = songBeatData.songClip;
         audioSource.Play();
+        songStartTimeDSP = AudioSettings.dspTime;
         songTime = audioSource.clip.length;
 
         nextIndex = 0;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-
-        if (nextIndex >= songBeatData.beats.Count) 
-        { 
-            Invoke("WinGame", 2f); return; 
-        }
-
-
-        if (Time.time >= songBeatData.beats[nextIndex].time) // checks if the time is greater than the next beat index
+        if (OnGameVictory != null)
         {
-            bool isFirstSpawner = nextIndex % 2 == 0; // basically just alternates the bool depending on odd or even beats 
-            OnBeat?.Invoke(songBeatData.beats[nextIndex].beatNumber, isFirstSpawner, songBeatData.beats[nextIndex+1].time - songBeatData.beats[nextIndex].time);
-            nextIndex++;
+            Delegate[] subscribers = OnGameVictory.GetInvocationList();
+            foreach (Delegate d in subscribers)
+            {
+                OnGameVictory -= (Action)d;
+            }
         }
-            lastBeatTime = Time.time;
     }
 
+    private void Update()
+    {
+        if (songBeatData == null || songBeatData.beats == null || nextIndex >= songBeatData.beats.Count)
+        {
+            if (nextIndex >= songBeatData.beats.Count && !IsInvoking("WinGame"))
+            {
+                Invoke("WinGame", 2f);
+            }
+            return;
+        }
 
+        double currentAudioTime = AudioSettings.dspTime - songStartTimeDSP;
+
+        while (nextIndex < songBeatData.beats.Count && currentAudioTime >= songBeatData.beats[nextIndex].time)
+        {
+            float beatTimeDifference = 0f;
+            if (nextIndex + 1 < songBeatData.beats.Count)
+            {
+                beatTimeDifference = songBeatData.beats[nextIndex + 1].time - songBeatData.beats[nextIndex].time;
+            }
+            else
+            {
+                beatTimeDifference = (float)(songTime / songBeatData.beats.Count);
+            }
+
+            bool isFirstSpawner = songBeatData.beats[nextIndex].beatNumber % 2 == 0;
+            Debug.Log("beat invoked");
+            OnBeat?.Invoke(songBeatData.beats[nextIndex].beatNumber, isFirstSpawner, beatTimeDifference);
+
+            nextIndex++;
+        }
+    }
 
     public int GetCurrentBeat()
     {
-        int currentbeat = -1;
-        if (songBeatData == null || songBeatData.beats == null || songBeatData.beats.Count == 0)
+        if (songBeatData == null || songBeatData.beats == null || songBeatData.beats.Count == 0 || audioSource == null)
         {
-            return currentbeat;
+            return -1;
         }
+
+        double currentAudioTime = AudioSettings.dspTime - songStartTimeDSP;
+        int currentBeat = -1;
+
         for (int i = 0; i < songBeatData.beats.Count; i++)
         {
-            if (audioSource.time >= songBeatData.beats[i].time)
+            if (currentAudioTime >= songBeatData.beats[i].time)
             {
-                currentbeat = songBeatData.beats[i].beatNumber;
-
-            } else
+                currentBeat = songBeatData.beats[i].beatNumber;
+            }
+            else
             {
-                break; // if the time ends up being less, then we know the beats are sorted and can break out of the loop.
+                break;
             }
         }
-        return currentbeat;
+        return currentBeat;
     }
 
     private void WinGame()

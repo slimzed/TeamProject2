@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField] private float attackCooldown = 0f;
     [SerializeField] private GameObject targetingIndicator;
+    private AudioManager audioManager;
 
 
     [SerializeField] private float hitStopDuration = 0.5f;
@@ -48,11 +50,9 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void Awake()
     {
-        ScriptCalls = GameObject.Find("ScriptCalls");
-        source = ScriptCalls.GetComponent<AudioSource>();
-        BeatIndicatorOnPlayer = gameObject.transform.Find("BeatIndicator").gameObject;
-        BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red;
-        AudioManager.OnBeat += HandleBeat;
+        Time.timeScale = 1;
+        SceneManager.sceneLoaded += HandleSceneLoad;
+        HandleSceneLoad(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
     }
 
@@ -63,6 +63,11 @@ public class NewBehaviourScript : MonoBehaviour
         CleanUpEnemies();
 
         ComboDetectionFunction();
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= HandleSceneLoad;
+        audioManager.OnBeat -= HandleBeat;
     }
 
     /// <summary>
@@ -84,6 +89,17 @@ public class NewBehaviourScript : MonoBehaviour
         BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red; // resets the color of the beat indicator
         canCombo = false;
 
+    }
+    private void HandleSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        ScriptCalls = GameObject.Find("ScriptCalls");
+        source = ScriptCalls.GetComponent<AudioSource>();
+        BeatIndicatorOnPlayer = gameObject.transform.Find("BeatIndicator").gameObject;
+        BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red;
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+
+        audioManager.OnBeat -= HandleBeat;
+        audioManager.OnBeat += HandleBeat; // re-subscribes to the beat event
     }
 
     private void ApplyPlayerSpriteDirection()
@@ -159,7 +175,7 @@ public class NewBehaviourScript : MonoBehaviour
                         {
                             Debug.Log("Full combo executed! Killing enemy");
                             ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
-                            currentEnemy.KillEnemy(false); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
+                            currentEnemy.KillEnemy(true); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
 
                             if (collidedEnemies.Count > 1)
                             {
@@ -180,7 +196,6 @@ public class NewBehaviourScript : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("incorrect input");
                         ScoreManager.Instance.SubtractLives();
                         
                         ResetInputArrow(currentEnemy.gameObject);

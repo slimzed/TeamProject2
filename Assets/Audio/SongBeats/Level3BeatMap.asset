@@ -1,0 +1,489 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52567b99ec0536a42b17570861b2f307, type: 3}
+  m_Name: Level3BeatMap
+  m_EditorClassIdentifier: 
+  songClip: {fileID: 8300000, guid: 6746006722bb85049b9d61d56a071f4b, type: 3}
+  bpm: 70
+  beats:
+  - time: 0
+    beatNumber: 1
+  - time: 0.85714287
+    beatNumber: 2
+  - time: 1.7142857
+    beatNumber: 3
+  - time: 2.5714285
+    beatNumber: 4
+  - time: 3.4285715
+    beatNumber: 5
+  - time: 4.285714
+    beatNumber: 6
+  - time: 5.142857
+    beatNumber: 7
+  - time: 6
+    beatNumber: 8
+  - time: 6.857143
+    beatNumber: 9
+  - time: 7.714286
+    beatNumber: 10
+  - time: 8.571428
+    beatNumber: 11
+  - time: 9.428571
+    beatNumber: 12
+  - time: 10.285713
+    beatNumber: 13
+  - time: 11.142856
+    beatNumber: 14
+  - time: 11.999998
+    beatNumber: 15
+  - time: 12.857141
+    beatNumber: 16
+  - time: 13.714283
+    beatNumber: 17
+  - time: 14.571425
+    beatNumber: 18
+  - time: 15.428568
+    beatNumber: 19
+  - time: 16.285711
+    beatNumber: 20
+  - time: 17.142855
+    beatNumber: 21
+  - time: 17.999998
+    beatNumber: 22
+  - time: 18.857141
+    beatNumber: 23
+  - time: 19.714285
+    beatNumber: 24
+  - time: 20.571428
+    beatNumber: 25
+  - time: 21.428572
+    beatNumber: 26
+  - time: 22.285715
+    beatNumber: 27
+  - time: 23.142859
+    beatNumber: 28
+  - time: 24.000002
+    beatNumber: 29
+  - time: 24.857145
+    beatNumber: 30
+  - time: 25.714289
+    beatNumber: 31
+  - time: 26.571432
+    beatNumber: 32
+  - time: 27.428576
+    beatNumber: 33
+  - time: 28.285719
+    beatNumber: 34
+  - time: 29.142862
+    beatNumber: 35
+  - time: 30.000006
+    beatNumber: 36
+  - time: 30.85715
+    beatNumber: 37
+  - time: 31.714293
+    beatNumber: 38
+  - time: 32.571434
+    beatNumber: 39
+  - time: 33.428577
+    beatNumber: 40
+  - time: 34.28572
+    beatNumber: 41
+  - time: 35.142864
+    beatNumber: 42
+  - time: 36.000008
+    beatNumber: 43
+  - time: 36.85715
+    beatNumber: 44
+  - time: 37.714294
+    beatNumber: 45
+  - time: 38.571438
+    beatNumber: 46
+  - time: 39.42858
+    beatNumber: 47
+  - time: 40.285725
+    beatNumber: 48
+  - time: 41.142868
+    beatNumber: 49
+  - time: 42.00001
+    beatNumber: 50
+  - time: 42.857155
+    beatNumber: 51
+  - time: 43.7143
+    beatNumber: 52
+  - time: 44.57144
+    beatNumber: 53
+  - time: 45.428585
+    beatNumber: 54
+  - time: 46.28573
+    beatNumber: 55
+  - time: 47.14287
+    beatNumber: 56
+  - time: 48.000015
+    beatNumber: 57
+  - time: 48.85716
+    beatNumber: 58
+  - time: 49.714302
+    beatNumber: 59
+  - time: 50.571445
+    beatNumber: 60
+  - time: 51.42859
+    beatNumber: 61
+  - time: 52.285732
+    beatNumber: 62
+  - time: 53.142876
+    beatNumber: 63
+  - time: 54.00002
+    beatNumber: 64
+  - time: 54.857162
+    beatNumber: 65
+  - time: 55.714306
+    beatNumber: 66
+  - time: 56.57145
+    beatNumber: 67
+  - time: 57.428593
+    beatNumber: 68
+  - time: 58.285736
+    beatNumber: 69
+  - time: 59.14288
+    beatNumber: 70
+  - time: 60.000023
+    beatNumber: 71
+  - time: 60.857166
+    beatNumber: 72
+  - time: 61.71431
+    beatNumber: 73
+  - time: 62.571453
+    beatNumber: 74
+  - time: 63.428596
+    beatNumber: 75
+  - time: 64.285736
+    beatNumber: 76
+  - time: 65.142876
+    beatNumber: 77
+  - time: 66.000015
+    beatNumber: 78
+  - time: 66.857155
+    beatNumber: 79
+  - time: 67.714294
+    beatNumber: 80
+  - time: 68.571434
+    beatNumber: 81
+  - time: 69.42857
+    beatNumber: 82
+  - time: 70.28571
+    beatNumber: 83
+  - time: 71.14285
+    beatNumber: 84
+  - time: 71.99999
+    beatNumber: 85
+  - time: 72.85713
+    beatNumber: 86
+  - time: 73.71427
+    beatNumber: 87
+  - time: 74.57141
+    beatNumber: 88
+  - time: 75.42855
+    beatNumber: 89
+  - time: 76.28569
+    beatNumber: 90
+  - time: 77.14283
+    beatNumber: 91
+  - time: 77.99997
+    beatNumber: 92
+  - time: 78.85711
+    beatNumber: 93
+  - time: 79.71425
+    beatNumber: 94
+  - time: 80.57139
+    beatNumber: 95
+  - time: 81.42853
+    beatNumber: 96
+  - time: 82.28567
+    beatNumber: 97
+  - time: 83.14281
+    beatNumber: 98
+  - time: 83.99995
+    beatNumber: 99
+  - time: 84.857086
+    beatNumber: 100
+  - time: 85.714226
+    beatNumber: 101
+  - time: 86.571365
+    beatNumber: 102
+  - time: 87.428505
+    beatNumber: 103
+  - time: 88.285645
+    beatNumber: 104
+  - time: 89.142784
+    beatNumber: 105
+  - time: 89.99992
+    beatNumber: 106
+  - time: 90.85706
+    beatNumber: 107
+  - time: 91.7142
+    beatNumber: 108
+  - time: 92.57134
+    beatNumber: 109
+  - time: 93.42848
+    beatNumber: 110
+  - time: 94.28562
+    beatNumber: 111
+  - time: 95.14276
+    beatNumber: 112
+  - time: 95.9999
+    beatNumber: 113
+  - time: 96.85704
+    beatNumber: 114
+  - time: 97.71418
+    beatNumber: 115
+  - time: 98.57132
+    beatNumber: 116
+  - time: 99.42846
+    beatNumber: 117
+  - time: 100.2856
+    beatNumber: 118
+  - time: 101.14274
+    beatNumber: 119
+  - time: 101.99988
+    beatNumber: 120
+  - time: 102.85702
+    beatNumber: 121
+  - time: 103.71416
+    beatNumber: 122
+  - time: 104.5713
+    beatNumber: 123
+  - time: 105.42844
+    beatNumber: 124
+  - time: 106.285576
+    beatNumber: 125
+  - time: 107.142715
+    beatNumber: 126
+  - time: 107.999855
+    beatNumber: 127
+  - time: 108.856995
+    beatNumber: 128
+  - time: 109.714134
+    beatNumber: 129
+  - time: 110.57127
+    beatNumber: 130
+  - time: 111.42841
+    beatNumber: 131
+  - time: 112.28555
+    beatNumber: 132
+  - time: 113.14269
+    beatNumber: 133
+  - time: 113.99983
+    beatNumber: 134
+  - time: 114.85697
+    beatNumber: 135
+  - time: 115.71411
+    beatNumber: 136
+  - time: 116.57125
+    beatNumber: 137
+  - time: 117.42839
+    beatNumber: 138
+  - time: 118.28553
+    beatNumber: 139
+  - time: 119.14267
+    beatNumber: 140
+  - time: 119.99981
+    beatNumber: 141
+  - time: 120.85695
+    beatNumber: 142
+  - time: 121.71409
+    beatNumber: 143
+  - time: 122.57123
+    beatNumber: 144
+  - time: 123.42837
+    beatNumber: 145
+  - time: 124.28551
+    beatNumber: 146
+  - time: 125.14265
+    beatNumber: 147
+  - time: 125.99979
+    beatNumber: 148
+  - time: 126.856926
+    beatNumber: 149
+  - time: 127.714066
+    beatNumber: 150
+  - time: 128.57121
+    beatNumber: 151
+  - time: 129.42836
+    beatNumber: 152
+  - time: 130.2855
+    beatNumber: 153
+  - time: 131.14265
+    beatNumber: 154
+  - time: 131.9998
+    beatNumber: 155
+  - time: 132.85695
+    beatNumber: 156
+  - time: 133.7141
+    beatNumber: 157
+  - time: 134.57124
+    beatNumber: 158
+  - time: 135.42839
+    beatNumber: 159
+  - time: 136.28554
+    beatNumber: 160
+  - time: 137.14268
+    beatNumber: 161
+  - time: 137.99983
+    beatNumber: 162
+  - time: 138.85698
+    beatNumber: 163
+  - time: 139.71413
+    beatNumber: 164
+  - time: 140.57127
+    beatNumber: 165
+  - time: 141.42842
+    beatNumber: 166
+  - time: 142.28557
+    beatNumber: 167
+  - time: 143.14272
+    beatNumber: 168
+  - time: 143.99986
+    beatNumber: 169
+  - time: 144.85701
+    beatNumber: 170
+  - time: 145.71416
+    beatNumber: 171
+  - time: 146.5713
+    beatNumber: 172
+  - time: 147.42845
+    beatNumber: 173
+  - time: 148.2856
+    beatNumber: 174
+  - time: 149.14275
+    beatNumber: 175
+  - time: 149.9999
+    beatNumber: 176
+  - time: 150.85704
+    beatNumber: 177
+  - time: 151.71419
+    beatNumber: 178
+  - time: 152.57133
+    beatNumber: 179
+  - time: 153.42848
+    beatNumber: 180
+  - time: 154.28563
+    beatNumber: 181
+  - time: 155.14278
+    beatNumber: 182
+  - time: 155.99992
+    beatNumber: 183
+  - time: 156.85707
+    beatNumber: 184
+  - time: 157.71422
+    beatNumber: 185
+  - time: 158.57137
+    beatNumber: 186
+  - time: 159.42851
+    beatNumber: 187
+  - time: 160.28566
+    beatNumber: 188
+  - time: 161.1428
+    beatNumber: 189
+  - time: 161.99995
+    beatNumber: 190
+  - time: 162.8571
+    beatNumber: 191
+  - time: 163.71425
+    beatNumber: 192
+  - time: 164.5714
+    beatNumber: 193
+  - time: 165.42854
+    beatNumber: 194
+  - time: 166.28569
+    beatNumber: 195
+  - time: 167.14284
+    beatNumber: 196
+  - time: 167.99998
+    beatNumber: 197
+  - time: 168.85713
+    beatNumber: 198
+  - time: 169.71428
+    beatNumber: 199
+  - time: 170.57143
+    beatNumber: 200
+  - time: 171.42857
+    beatNumber: 201
+  - time: 172.28572
+    beatNumber: 202
+  - time: 173.14287
+    beatNumber: 203
+  - time: 174.00002
+    beatNumber: 204
+  - time: 174.85716
+    beatNumber: 205
+  - time: 175.71431
+    beatNumber: 206
+  - time: 176.57146
+    beatNumber: 207
+  - time: 177.4286
+    beatNumber: 208
+  - time: 178.28575
+    beatNumber: 209
+  - time: 179.1429
+    beatNumber: 210
+  - time: 180.00005
+    beatNumber: 211
+  - time: 180.8572
+    beatNumber: 212
+  - time: 181.71434
+    beatNumber: 213
+  - time: 182.57149
+    beatNumber: 214
+  - time: 183.42863
+    beatNumber: 215
+  - time: 184.28578
+    beatNumber: 216
+  - time: 185.14293
+    beatNumber: 217
+  - time: 186.00008
+    beatNumber: 218
+  - time: 186.85722
+    beatNumber: 219
+  - time: 187.71437
+    beatNumber: 220
+  - time: 188.57152
+    beatNumber: 221
+  - time: 189.42867
+    beatNumber: 222
+  - time: 190.28581
+    beatNumber: 223
+  - time: 191.14296
+    beatNumber: 224
+  - time: 192.0001
+    beatNumber: 225
+  - time: 192.85725
+    beatNumber: 226
+  - time: 193.7144
+    beatNumber: 227
+  - time: 194.57155
+    beatNumber: 228
+  - time: 195.4287
+    beatNumber: 229
+  - time: 196.28584
+    beatNumber: 230
+  - time: 197.14299
+    beatNumber: 231
+  - time: 198.00014
+    beatNumber: 232
+  - time: 198.85728
+    beatNumber: 233
+  - time: 199.71443
+    beatNumber: 234
+  - time: 200.57158
+    beatNumber: 235
+  - time: 201.42873
+    beatNumber: 236
