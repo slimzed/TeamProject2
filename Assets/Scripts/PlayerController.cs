@@ -173,6 +173,7 @@ public class NewBehaviourScript : MonoBehaviour
                                 playerAnimator.SetTrigger("LowAttack");
                             } else if (currentInputKey == KeyCode.LeftArrow || currentInputKey == KeyCode.RightArrow)
                             {
+                                Debug.Log("trigger called");
                                 playerAnimator.SetTrigger("MidAttack");
                             }
 
