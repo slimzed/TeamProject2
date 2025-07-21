@@ -72,9 +72,8 @@ public class NewBehaviourScript : MonoBehaviour
     /// <param name="isFirstSpawner"></param>
     private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
     {
-        Debug.Log($"Beat {beatNumber}");
         BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.green;
-        StartCoroutine(BeatComboDetectionRoutine(beatTimeDifference/2));
+        StartCoroutine(BeatComboDetectionRoutine(beatTimeDifference/1.5f));
 
     }
     private IEnumerator BeatComboDetectionRoutine(float beatWindow)
@@ -84,7 +83,6 @@ public class NewBehaviourScript : MonoBehaviour
         yield return new WaitForSeconds(beatWindow);
         BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red; // resets the color of the beat indicator
         canCombo = false;
-        Debug.Log("combo detection ended");
 
     }
 
@@ -126,9 +124,6 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void ComboDetectionFunction() 
     {
-
-
-
         if (currentEnemy != null && Time.time >= lastAttackTime + attackCooldown) // the enemy exists and the cd is over 
         {
             KeyCode currentInputKey = CheckAndAnimateInput();
@@ -143,7 +138,8 @@ public class NewBehaviourScript : MonoBehaviour
 
                     if (currentInputKey == requiredKey) // checks if input is correct and within the detection time window
                     {
-                        if (canCombo)
+                    Debug.Log("Combo input detected: " + currentInputKey);
+                    if (canCombo)
                         {
                             Debug.Log("Correct combo input: " + requiredKey);
                             currentComboIndex++;
@@ -155,37 +151,37 @@ public class NewBehaviourScript : MonoBehaviour
                         } else
                         {
                             Debug.Log("combo input outside of beat window, nothing happens though");
-                            ScoreManager.Instance.AddToScore(-20); // adding an arbitrary penalty for inputting outside of window
+                            ScoreManager.Instance.SubtractLives();
                         }
 
 
                         if (currentComboIndex == comboSequence.Length)
-                    {
-                        Debug.Log("Full combo executed! Killing enemy");
-                        ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
-                        currentEnemy.KillEnemy(false); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
-
-                        if (collidedEnemies.Count > 1)
                         {
-                            currentEnemy = collidedEnemies[collidedEnemies.Count - 2];
-                            ResetInputArrow(currentEnemy.gameObject);
-                            TurnOnTarget(currentEnemy.transform, true); // targets the next enemy in the list of collided enemies 
+                            Debug.Log("Full combo executed! Killing enemy");
+                            ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
+                            currentEnemy.KillEnemy(false); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
+
+                            if (collidedEnemies.Count > 1)
+                            {
+                                currentEnemy = collidedEnemies[collidedEnemies.Count - 2];
+                                ResetInputArrow(currentEnemy.gameObject);
+                                TurnOnTarget(currentEnemy.transform, true); // targets the next enemy in the list of collided enemies 
+                            }
+                            else
+                            {
+                                currentEnemy = null;
+                            }
+
+
+
+                            lastAttackTime = Time.time;
+                            ResetCombo();
                         }
-                        else
-                        {
-                            currentEnemy = null;
-                        }
-
-
-
-                        lastAttackTime = Time.time;
-                        ResetCombo();
-                    }
                     }
                     else
                     {
                         Debug.Log("incorrect input");
-                        ScoreManager.Instance.AddToScore(currentEnemy.scoreValue * -1);
+                        ScoreManager.Instance.SubtractLives();
                         
                         ResetInputArrow(currentEnemy.gameObject);
                         ScoreManager.Instance.ResetCombo();
