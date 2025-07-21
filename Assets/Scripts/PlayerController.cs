@@ -103,7 +103,6 @@ public class NewBehaviourScript : MonoBehaviour
             comboTimer -= Time.deltaTime;
             if (comboTimer <= 0)
             {
-                Debug.Log("Combo failed! Time ran out.");
                 if (currentEnemy != null)
                 {
                     ResetInputArrow(currentEnemy.gameObject);

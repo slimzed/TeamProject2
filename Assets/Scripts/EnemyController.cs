@@ -147,6 +147,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator EnemyKillSequence(bool playerKill) // accessed by the enemy itself
     {
+        Debug.Log("enemy killed");
         Destroy(gameObject);
         yield return StartCoroutine(ShowExplosionParticles(playerKill));
 
