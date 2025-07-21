@@ -9,12 +9,18 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("-1 if its going left, 1 if its going to the right")]
     [SerializeField] private int moveDir = -1;
 
-    [SerializeField] private int startTime = 0;
+    [Tooltip("How often should you iterate down the intervals")]
     [SerializeField] private int spawnOnBeatInterval = 1;
-    [SerializeField] private int BeatsPerSpawn = 16;
 
-    private int _initialBeatsPerSpawn;
+    [SerializeField] private int Level1BeatsPerSpawn = 8;
+    [SerializeField] private int Level2BeatsPerSpawn = 6;
+    [SerializeField] private int Level3BeatsPerSpawn = 4;
+
+
+    private int BeatsPerSpawn;
+    private int _initBeatsPerSpawn;
     private int _currentLevelNumber = 1;
+    private int startTime = 0;
 
     [SerializeField] private bool isMainSpawner;
 
@@ -32,7 +38,29 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         _currentLevelNumber = ScoreManager.Instance.LevelNumber;
-        _initialBeatsPerSpawn = BeatsPerSpawn;
+
+        switch (_currentLevelNumber) 
+        {
+            case 1:
+                BeatsPerSpawn = Level1BeatsPerSpawn;
+                break;
+            case 2:
+                BeatsPerSpawn = Level2BeatsPerSpawn;
+                break;
+            case 3:
+                BeatsPerSpawn = Level3BeatsPerSpawn;
+                break;
+            default:
+                BeatsPerSpawn = Level1BeatsPerSpawn; 
+                break;
+        }
+
+        if (!isMainSpawner)
+        {
+            startTime = BeatsPerSpawn / 2;
+        }
+
+        _initBeatsPerSpawn = BeatsPerSpawn;
     }
 
     private void OnEnable()
@@ -60,7 +88,8 @@ public class EnemySpawner : MonoBehaviour
                 BeatsPerSpawn--;
                 if (BeatsPerSpawn <= 0)
                 {
-                    BeatsPerSpawn = _initialBeatsPerSpawn;
+                    BeatsPerSpawn = _initBeatsPerSpawn;
+                    Debug.Log("beats reset");
                     SpawnEnemyForCurrentLevel();
                 }
             }
@@ -70,6 +99,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemyForCurrentLevel()
     {
+        Debug.Log("enemy spawned");
         GameObject enemyToSpawn = null;
         switch (_currentLevelNumber)
         {

@@ -35,6 +35,8 @@ public class NewBehaviourScript : MonoBehaviour
     private bool canCombo = false;
 
 
+    private Animator playerAnimator;
+
     /// <summary>
     /// The following variables refer to Audio/Script calls.
     /// </summary>
@@ -98,6 +100,7 @@ public class NewBehaviourScript : MonoBehaviour
         BeatIndicatorOnPlayer = gameObject.transform.Find("BeatIndicator").gameObject;
         BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red;
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        playerAnimator = transform.Find("PlayerSprite").GetComponent<Animator>(); // hard coded call to the player animator
 
         audioManager.OnBeat -= HandleBeat;
         audioManager.OnBeat += HandleBeat; // re-subscribes to the beat event
@@ -155,12 +158,26 @@ public class NewBehaviourScript : MonoBehaviour
 
                     if (currentInputKey == requiredKey) // checks if input is correct and within the detection time window
                     {
-                    if (canCombo)
+                        if (canCombo)
                         {
                             currentComboIndex++;
                             comboTimer = comboTime;
                             lastAttackTime = Time.time;
-                            ApplyEnemySpriteHit();
+
+                            if (currentInputKey == KeyCode.UpArrow)
+                            {
+                                playerAnimator.SetTrigger("HighAttack");
+                            }
+                            else if (currentInputKey == KeyCode.DownArrow)
+                            {
+                                playerAnimator.SetTrigger("LowAttack");
+                            } else if (currentInputKey == KeyCode.LeftArrow || currentInputKey == KeyCode.RightArrow)
+                            {
+                                playerAnimator.SetTrigger("MidAttack");
+                            }
+
+
+                        ApplyEnemySpriteHit();
                             RemoveInputArrow(currentEnemy.gameObject);
                             ScoreManager.Instance.IncreaseCombo();
                         } else
@@ -221,6 +238,8 @@ public class NewBehaviourScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             currentInputKey = KeyCode.DownArrow;
+
+            
             source.clip = lowhit;
             source.Play();
             StartCoroutine(HitStopCoroutine());
@@ -242,6 +261,10 @@ public class NewBehaviourScript : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             currentInputKey = KeyCode.UpArrow;
+
+
+
+
             source.clip = highhit;
             source.Play();
             StartCoroutine(HitStopCoroutine());
@@ -318,6 +341,8 @@ public class NewBehaviourScript : MonoBehaviour
         }
         Time.timeScale = originalTimeScale;
         isHitStop = false;
+
+
     }
     private void TurnOnTarget(Transform parent, bool enable)
     {
