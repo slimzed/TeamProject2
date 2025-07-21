@@ -232,6 +232,7 @@ public class ScoreManager : MonoBehaviour
         if (lives <= 0)
         {
             OnGameOver?.Invoke();
+            LevelNumber = 1;
             ResetAllStats();
         }
         UpdateUI();    
