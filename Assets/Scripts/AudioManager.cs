@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour
     private float lastBeatTime;
     private float songTime;
 
-    public delegate void OnBeatAction(int beatNumber, bool isFirstSpawner);
+    public delegate void OnBeatAction(int beatNumber, bool isFirstSpawner, float beatTimeDifference);
     public static event OnBeatAction OnBeat;
     public static Action OnGameVictory;
 
@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
         if (Time.time >= songBeatData.beats[nextIndex].time) // checks if the time is greater than the next beat index
         {
             bool isFirstSpawner = nextIndex % 2 == 0; // basically just alternates the bool depending on odd or even beats 
-            OnBeat?.Invoke(songBeatData.beats[nextIndex].beatNumber, isFirstSpawner);
+            OnBeat?.Invoke(songBeatData.beats[nextIndex].beatNumber, isFirstSpawner, songBeatData.beats[nextIndex+1].time - songBeatData.beats[nextIndex].time);
             nextIndex++;
         }
             lastBeatTime = Time.time;

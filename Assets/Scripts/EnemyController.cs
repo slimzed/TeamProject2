@@ -103,7 +103,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void HandleBeat(int beatNumber, bool isFirstSpawner)
+    private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
     {
         moveStartTime = Time.time;
         endPos = startPos + CalcMovement();
