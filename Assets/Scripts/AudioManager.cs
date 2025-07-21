@@ -38,20 +38,12 @@ public class AudioManager : MonoBehaviour
         nextIndex = 0;
     }
 
-    private void OnDestroy()
-    {
-        if (OnGameVictory != null)
-        {
-            Delegate[] subscribers = OnGameVictory.GetInvocationList();
-            foreach (Delegate d in subscribers)
-            {
-                OnGameVictory -= (Action)d;
-            }
-        }
-    }
-
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            OnGameVictory?.Invoke();
+        }
         if (songBeatData == null || songBeatData.beats == null || nextIndex >= songBeatData.beats.Count)
         {
             if (nextIndex >= songBeatData.beats.Count && !IsInvoking("WinGame"))

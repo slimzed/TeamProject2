@@ -14,18 +14,7 @@ public class ScoreManager : MonoBehaviour
     private int _score = 250;
     private int lives = 15;
 
-    private int _levelNumber = 1;
-    public int LevelNumber
-    {
-        get
-        {
-            return _levelNumber;
-        }
-        private set
-        {
-            _levelNumber = value;
-        }
-    }
+    public int LevelNumber { get; private set; } = 1;
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
@@ -216,7 +205,9 @@ public class ScoreManager : MonoBehaviour
     }
     private void HandleGameVictory()
     {
-        LevelNumber++;
+        Debug.Log(LevelNumber);
+        LevelNumber += 1;
+        Debug.Log(LevelNumber);
     }
     private void PlayComboAnimation()
     {
@@ -232,7 +223,6 @@ public class ScoreManager : MonoBehaviour
         if (lives <= 0)
         {
             OnGameOver?.Invoke();
-            LevelNumber = 1;
             ResetAllStats();
         }
         UpdateUI();    
