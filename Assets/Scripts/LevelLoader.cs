@@ -11,7 +11,10 @@ public class LevelLoader : MonoBehaviour
     private void Start()
     {
         ScoreManager.OnGameOver += LoadGameOverScene;
+
+        // two win conditions, one from AudioManager and one from ScoreManager
         AudioManager.OnGameVictory += LoadNextScene;
+        ScoreManager.OnGameVictory += LoadNextScene;
     }
 
 

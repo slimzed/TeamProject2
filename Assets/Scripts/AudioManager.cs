@@ -56,7 +56,7 @@ public class AudioManager : MonoBehaviour
         {
             if (nextIndex >= songBeatData.beats.Count && !IsInvoking("WinGame"))
             {
-                Invoke("WinGame", 2f);
+                Invoke("WinGame", 1f);
             }
             return;
         }
@@ -76,7 +76,6 @@ public class AudioManager : MonoBehaviour
             }
 
             bool isFirstSpawner = songBeatData.beats[nextIndex].beatNumber % 2 == 0;
-            Debug.Log("beat invoked");
             OnBeat?.Invoke(songBeatData.beats[nextIndex].beatNumber, isFirstSpawner, beatTimeDifference);
 
             nextIndex++;

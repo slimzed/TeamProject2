@@ -22,6 +22,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
+        _currentLevelNumber = ScoreManager.Instance.LevelNumber;
         _audioManager = FindObjectOfType<AudioManager>();
         if (_audioManager == null)
         {
@@ -40,7 +41,6 @@ public class EnemySpawner : MonoBehaviour
         {
             _audioManager.OnBeat += HandleBeat;
         }
-        AudioManager.OnGameVictory += HandleVictory;
     }
 
     private void OnDisable()
@@ -49,7 +49,6 @@ public class EnemySpawner : MonoBehaviour
         {
             _audioManager.OnBeat -= HandleBeat;
         }
-        AudioManager.OnGameVictory -= HandleVictory;
     }
 
     private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
@@ -68,10 +67,6 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void HandleVictory()
-    {
-        _currentLevelNumber++;
-    }
 
     private void SpawnEnemyForCurrentLevel()
     {
@@ -104,9 +99,9 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
-
     private GameObject SelectEnemyPrefab1()
     {
+        Debug.Log("case 1");
         int enemySelection = Random.Range(0, 100);
         if (enemySelection < 70)
         {
@@ -120,6 +115,7 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject SelectEnemyPrefab2()
     {
+        Debug.Log("case 2");
         int enemySelection = Random.Range(0, 100);
         if (enemySelection < 50)
         {
@@ -137,6 +133,7 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject SelectEnemyPrefab3()
     {
+        Debug.Log("case 3");
         int enemySelection = Random.Range(0, 100);
         if (enemySelection < 30)
         {

@@ -9,9 +9,23 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
     public static Action OnGameOver;
-    
+    public static Action OnGameVictory; 
+
     private int _score = 250;
     private int lives = 15;
+
+    private int _levelNumber = 1;
+    public int LevelNumber
+    {
+        get
+        {
+            return _levelNumber;
+        }
+        private set
+        {
+            _levelNumber = value;
+        }
+    }
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI comboText;
@@ -40,7 +54,9 @@ public class ScoreManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         UpdateUI();
+        
         AudioManager.OnGameVictory += ResetAllStats; // Reset combo on game victory
+        AudioManager.OnGameVictory += HandleGameVictory; // Handle game victory
     }
     private void Update()
     {
@@ -145,10 +161,15 @@ public class ScoreManager : MonoBehaviour
         {
             Score += comboScore;
         }
+
+
         if (Score <= 0)
         {
             Score = 0;
             OnGameOver?.Invoke();
+        } else if (Score >= 6500)
+        {
+            OnGameVictory?.Invoke();
         }
     }
 
@@ -192,6 +213,10 @@ public class ScoreManager : MonoBehaviour
         lives = 15;
         ResetCombo(); // Reset combo
         UpdateUI(); // Update UI elements
+    }
+    private void HandleGameVictory()
+    {
+        LevelNumber++;
     }
     private void PlayComboAnimation()
     {

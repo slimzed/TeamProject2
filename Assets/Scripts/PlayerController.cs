@@ -11,6 +11,8 @@ public class NewBehaviourScript : MonoBehaviour
 
 
     [SerializeField] private float hitStopDuration = 0.5f;
+    [Tooltip("This determines combo detection window after the beat, 1 is full and 0 is none")]
+    [SerializeField] private float PercentOfBeatTime = 0.5f; // how much of the beat time is used for the combo detection window    
     private AnimationCurve hitstopCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
 
@@ -20,7 +22,6 @@ public class NewBehaviourScript : MonoBehaviour
     private float comboTimer = 0; // internal timer to track how long the combo has been active
     [Tooltip("This determines how long the combo will last after the first input")]
     [SerializeField] private float comboTime = 0.5f; // decides how long the combo will last after the first input
-    [Tooltip("This determines how long after the beat the player has to input the combo")]
 
 
     private float lastAttackTime = -Mathf.Infinity; // input track for debounce
@@ -78,7 +79,7 @@ public class NewBehaviourScript : MonoBehaviour
     private void HandleBeat(int beatNumber, bool isFirstSpawner, float beatTimeDifference)
     {
         BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.green;
-        StartCoroutine(BeatComboDetectionRoutine(beatTimeDifference/1.5f));
+        StartCoroutine(BeatComboDetectionRoutine(beatTimeDifference * Mathf.Clamp01(PercentOfBeatTime)));
 
     }
     private IEnumerator BeatComboDetectionRoutine(float beatWindow)
@@ -121,7 +122,7 @@ public class NewBehaviourScript : MonoBehaviour
         collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
 
         // Handle overflow
-        if (collidedEnemies.Count > 4)
+        if (collidedEnemies.Count > 3)
         {
             if (collidedEnemies[0] != null)
             {
@@ -154,10 +155,8 @@ public class NewBehaviourScript : MonoBehaviour
 
                     if (currentInputKey == requiredKey) // checks if input is correct and within the detection time window
                     {
-                    Debug.Log("Combo input detected: " + currentInputKey);
                     if (canCombo)
                         {
-                            Debug.Log("Correct combo input: " + requiredKey);
                             currentComboIndex++;
                             comboTimer = comboTime;
                             lastAttackTime = Time.time;
