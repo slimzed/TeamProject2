@@ -22,7 +22,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        _currentLevelNumber = ScoreManager.Instance.LevelNumber;
         _audioManager = FindObjectOfType<AudioManager>();
         if (_audioManager == null)
         {
@@ -32,6 +31,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        _currentLevelNumber = ScoreManager.Instance.LevelNumber;
         _initialBeatsPerSpawn = BeatsPerSpawn;
     }
 
