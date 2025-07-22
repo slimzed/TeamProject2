@@ -179,7 +179,7 @@ public class NewBehaviourScript : MonoBehaviour
                             }
 
 
-                        ApplyEnemySpriteHit();
+                            ApplyEnemySpriteHit();
                             RemoveInputArrow(currentEnemy.gameObject);
                             ScoreManager.Instance.IncreaseCombo();
                         } else
@@ -192,6 +192,9 @@ public class NewBehaviourScript : MonoBehaviour
                         if (currentComboIndex == comboSequence.Length)
                         {
                             Debug.Log("Full combo executed! Killing enemy");
+
+                            Invoke("FlipPlayerSpriteAfterComboEnd", 0.35f);
+
                             ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
                             currentEnemy.KillEnemy(true); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
 
@@ -283,6 +286,17 @@ public class NewBehaviourScript : MonoBehaviour
         else
         {
             gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
+        }
+    }
+    private void FlipPlayerSpriteAfterComboEnd()
+    {
+        if (isEnemyRight) // if the previous enemy was on the right side, flip the player
+        {
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
