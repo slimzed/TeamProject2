@@ -47,8 +47,29 @@ MonoBehaviour:
   enemyPrefabWeak: {fileID: 3425266481335760969, guid: f33d4dd8f0b152b4e9d95ae46ae16217, type: 3}
   enemyPrefabNormal: {fileID: 3425266481335760969, guid: dec14c0a0256c66468bd48547881f152, type: 3}
   enemyPrefabElite: {fileID: 3425266481335760969, guid: d1dc81f874e03e04e8088225476233bc, type: 3}
+  enemySpawnDatas:
+  - IndividualEnemySpawns:
+    - enemyType: 0
+      AmountOfEntries: 4
+    - enemyType: 1
+      AmountOfEntries: 2
+    BeatsPerSpawn: 8
+  - IndividualEnemySpawns:
+    - enemyType: 0
+      AmountOfEntries: 4
+    - enemyType: 1
+      AmountOfEntries: 2
+    - enemyType: 2
+      AmountOfEntries: 1
+    BeatsPerSpawn: 6
+  - IndividualEnemySpawns:
+    - enemyType: 0
+      AmountOfEntries: 2
+    - enemyType: 1
+      AmountOfEntries: 4
+    - enemyType: 2
+      AmountOfEntries: 2
+    BeatsPerSpawn: 4
   moveDir: 1
-  startTime: 0
   spawnOnBeatInterval: 1
-  BeatsPerSpawn: 14
   isMainSpawner: 0

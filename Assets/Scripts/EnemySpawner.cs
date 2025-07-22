@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -6,16 +8,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefabNormal;
     [SerializeField] private GameObject enemyPrefabElite;
 
+    [SerializeField] private List<EnemySpawnData> enemySpawnDatas = new();
+
     [Tooltip("-1 if its going left, 1 if its going to the right")]
     [SerializeField] private int moveDir = -1;
 
     [Tooltip("How often should you iterate down the intervals")]
     [SerializeField] private int spawnOnBeatInterval = 1;
-
-    [SerializeField] private int Level1BeatsPerSpawn = 8;
-    [SerializeField] private int Level2BeatsPerSpawn = 6;
-    [SerializeField] private int Level3BeatsPerSpawn = 4;
-
 
     private int BeatsPerSpawn;
     private int _initBeatsPerSpawn;
@@ -25,6 +24,22 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private bool isMainSpawner;
 
     private AudioManager _audioManager;
+
+    [System.Serializable]
+    public class EnemySpawnData
+    {
+        [SerializeField] public List<IndividualEnemySpawnData> IndividualEnemySpawns;
+
+        [SerializeField] public int BeatsPerSpawn;
+    }
+    
+    
+    [System.Serializable]
+    public class IndividualEnemySpawnData
+    {
+        public EnemyType enemyType;
+        public int AmountOfEntries;
+    }
 
     private void Awake()
     {
@@ -39,21 +54,8 @@ public class EnemySpawner : MonoBehaviour
     {
         _currentLevelNumber = ScoreManager.Instance.LevelNumber;
 
-        switch (_currentLevelNumber) 
-        {
-            case 1:
-                BeatsPerSpawn = Level1BeatsPerSpawn;
-                break;
-            case 2:
-                BeatsPerSpawn = Level2BeatsPerSpawn;
-                break;
-            case 3:
-                BeatsPerSpawn = Level3BeatsPerSpawn;
-                break;
-            default:
-                BeatsPerSpawn = Level1BeatsPerSpawn; 
-                break;
-        }
+        BeatsPerSpawn = enemySpawnDatas[_currentLevelNumber - 1].BeatsPerSpawn;
+        
 
         if (!isMainSpawner)
         {
@@ -101,20 +103,7 @@ public class EnemySpawner : MonoBehaviour
     {
         Debug.Log("enemy spawned");
         GameObject enemyToSpawn = null;
-        switch (_currentLevelNumber)
-        {
-            case 1:
-                enemyToSpawn = SelectEnemyPrefab1();
-                break;
-            case 2:
-                enemyToSpawn = SelectEnemyPrefab2();
-                break;
-            case 3:
-                enemyToSpawn = SelectEnemyPrefab3();
-                break;
-            default:
-                break;
-        }
+        enemyToSpawn = SelectEnemyPrefab(_currentLevelNumber - 1);
 
         if (enemyToSpawn != null)
         {
@@ -129,53 +118,40 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
-    private GameObject SelectEnemyPrefab1()
+    private GameObject SelectEnemyPrefab(int ArrayLocation)
     {
-        Debug.Log("case 1");
-        int enemySelection = Random.Range(0, 100);
-        if (enemySelection < 70)
+        float enemySelection = Random.value;
+        int total = 0;
+        
+        for (int i=0; i < enemySpawnDatas[ArrayLocation].IndividualEnemySpawns.Count; i++)
         {
-            return enemyPrefabWeak;
+            total += enemySpawnDatas[ArrayLocation].IndividualEnemySpawns[i].AmountOfEntries;
         }
-        else
-        {
-            return enemyPrefabNormal;
-        }
-    }
+        Debug.Log("The total number of entries is: " + total);
 
-    private GameObject SelectEnemyPrefab2()
-    {
-        Debug.Log("case 2");
-        int enemySelection = Random.Range(0, 100);
-        if (enemySelection < 50)
+        float threshold = 0f;
+        foreach (IndividualEnemySpawnData option in enemySpawnDatas[ArrayLocation].IndividualEnemySpawns)
         {
-            return enemyPrefabWeak;
-        }
-        else if (enemySelection < 90)
-        {
-            return enemyPrefabNormal;
-        }
-        else
-        {
-            return enemyPrefabElite;
-        }
-    }
+            float scaledProbability = option.AmountOfEntries / (float)total;
+            threshold += scaledProbability;
 
-    private GameObject SelectEnemyPrefab3()
-    {
-        Debug.Log("case 3");
-        int enemySelection = Random.Range(0, 100);
-        if (enemySelection < 30)
-        {
-            return enemyPrefabWeak;
+            if (enemySelection < threshold)
+            {
+                Debug.Log("Selected enemy type: " + option.enemyType + " at threshold: " + threshold);
+                switch(option.enemyType)
+                {
+                    case EnemyType.Weak:
+                        return enemyPrefabWeak;
+                    case EnemyType.Normal:
+                        return enemyPrefabNormal;
+                    case EnemyType.Elite:
+                        return enemyPrefabElite;
+                    default:
+                        Debug.LogError("Unknown enemy type selected.");
+                        return null; // Fallback in case of an unknown type
+                }
+            }
         }
-        else if (enemySelection < 70)
-        {
-            return enemyPrefabNormal;
-        }
-        else
-        {
-            return enemyPrefabElite;
-        }
+        return null;
     }
 }
