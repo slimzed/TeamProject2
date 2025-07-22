@@ -163,8 +163,9 @@ public class NewBehaviourScript : MonoBehaviour
                             currentComboIndex++;
                             comboTimer = comboTime;
                             lastAttackTime = Time.time;
-
-                            if (currentInputKey == KeyCode.UpArrow)
+                            
+                        
+                        if (currentInputKey == KeyCode.UpArrow)
                             {
                                 playerAnimator.SetTrigger("HighAttack");
                             }
