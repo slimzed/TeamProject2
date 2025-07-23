@@ -39,6 +39,7 @@ public class EnemyController : MonoBehaviour
     }
 
     private AudioManager audioManager;
+    private CameraShakeScript cameraShakeScript;
 
 
     [SerializeField] private float enemyMovementSpeed = 2f;
@@ -69,6 +70,8 @@ public class EnemyController : MonoBehaviour
     {
         audioManager = FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody2D>();
+        cameraShakeScript = FindObjectOfType<CameraShakeScript>();
+
         startPos = rb.position;
         endPos = rb.position;
         if (moveDir == 1)
@@ -126,6 +129,7 @@ public class EnemyController : MonoBehaviour
         {
             moveDir = 0; // stops the object from moving when it collides with the player 
             isMoving = false;
+            cameraShakeScript.start = true;
             StartCoroutine(EnemyColorLerpSequence());
         }
     }

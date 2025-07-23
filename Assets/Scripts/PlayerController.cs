@@ -8,6 +8,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] private float attackCooldown = 0f;
     [SerializeField] private GameObject targetingIndicator;
     private AudioManager audioManager;
+    private CameraShakeScript cameraShakeScript;
 
 
     [SerializeField] private float hitStopDuration = 0.5f;
@@ -101,6 +102,7 @@ public class NewBehaviourScript : MonoBehaviour
         BeatIndicatorOnPlayer.GetComponent<SpriteRenderer>().color = Color.red;
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         playerAnimator = transform.Find("PlayerSprite").GetComponent<Animator>(); // hard coded call to the player animator
+        cameraShakeScript = GameObject.Find("Main Camera").GetComponent<CameraShakeScript>(); // hard coded call to the camera shake script
 
         audioManager.OnBeat -= HandleBeat;
         audioManager.OnBeat += HandleBeat; // re-subscribes to the beat event
@@ -182,6 +184,7 @@ public class NewBehaviourScript : MonoBehaviour
                             ApplyEnemySpriteHit();
                             RemoveInputArrow(currentEnemy.gameObject);
                             ScoreManager.Instance.IncreaseCombo();
+                            cameraShakeScript.start = true;
                         } else
                         {
                             Debug.Log("combo input outside of beat window, nothing happens though");
