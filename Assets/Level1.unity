@@ -1354,14 +1354,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnerLeft
       objectReference: {fileID: 0}
-    - target: {fileID: 6696563904182045470, guid: bde28587b5476bb4a8528394d0d7715f, type: 3}
-      propertyPath: enemySpawnDatas.Array.data[0].IndividualEnemySpawns.Array.data[0].AmountOfEntries
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6696563904182045470, guid: bde28587b5476bb4a8528394d0d7715f, type: 3}
-      propertyPath: enemySpawnDatas.Array.data[0].IndividualEnemySpawns.Array.data[1].AmountOfEntries
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
