@@ -53,12 +53,6 @@ MonoBehaviour:
       AmountOfEntries: 4
     - enemyType: 1
       AmountOfEntries: 2
-    BeatsPerSpawn: 8
-  - IndividualEnemySpawns:
-    - enemyType: 0
-      AmountOfEntries: 4
-    - enemyType: 1
-      AmountOfEntries: 2
     - enemyType: 2
       AmountOfEntries: 1
     BeatsPerSpawn: 6
