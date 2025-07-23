@@ -55,7 +55,7 @@ public class DanteDialogueController : MonoBehaviour
             currentLineIndex++;
             textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
-        } else
+        } else // if there is no end line, just disable the game object
         {
             gameObject.SetActive(false);
         }
