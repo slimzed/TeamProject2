@@ -70,6 +70,14 @@ MonoBehaviour:
     - enemyType: 1
       AmountOfEntries: 2
     BeatsPerSpawn: 4
+  - IndividualEnemySpawns:
+    - enemyType: 0
+      AmountOfEntries: 2
+    - enemyType: 1
+      AmountOfEntries: 4
+    - enemyType: 1
+      AmountOfEntries: 2
+    BeatsPerSpawn: 4
   moveDir: -1
   spawnOnBeatInterval: 1
   isMainSpawner: 1
