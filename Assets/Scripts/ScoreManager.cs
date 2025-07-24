@@ -56,6 +56,10 @@ public class ScoreManager : MonoBehaviour
                 ResetCombo();
             }
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log(LevelNumber);
+        }
     }
 
     public void IncreaseCombo()
@@ -207,6 +211,10 @@ public class ScoreManager : MonoBehaviour
         LevelNumber += 1;
         lives += 10;
     }
+    public void ResetLevelNumber()
+    {
+        LevelNumber = 1;
+    }
     private void PlayComboAnimation()
     {
         if (comboAnimator == null) return;
@@ -221,7 +229,6 @@ public class ScoreManager : MonoBehaviour
         if (lives <= 0)
         {
             OnGameOver?.Invoke();
-            LevelNumber = 1;
             ResetAllStats();
         }
         UpdateUI();    

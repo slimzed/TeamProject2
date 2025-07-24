@@ -38,15 +38,36 @@ public class LevelLoader : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        ScoreManager.Instance.ResetLevelNumber();
     }
     public void LoadTutorialScene()
     {
         Invoke("HandleTutorialSceneLoad", 0.2f); // slight delay to ensure the scene is loaded properly
     }
+    public void LoadCurrentLevel()
+    {
+        switch (ScoreManager.Instance.LevelNumber) // harded because i dont give a shit atp 
+        {
+            case 1:
+                SceneManager.LoadScene("Level1");
+                break;
+            case 2:
+                SceneManager.LoadScene("Level2");
+                break;
+            case 3:
+                SceneManager.LoadScene("Level3");
+                break;
+            default:
+                SceneManager.LoadScene("MainMenu");
+                break;
+        }
+    }
     private void HandleTutorialSceneLoad()
     {
         SceneManager.LoadScene("Tutorial");
     }
+
+
     public void QuitGame()
     {
         Application.Quit();
