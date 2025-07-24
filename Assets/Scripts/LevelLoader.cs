@@ -38,6 +38,7 @@ public class LevelLoader : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        if (ScoreManager.Instance == null) return;
         ScoreManager.Instance.ResetLevelNumber();
     }
     public void LoadTutorialScene()
@@ -61,6 +62,10 @@ public class LevelLoader : MonoBehaviour
                 SceneManager.LoadScene("MainMenu");
                 break;
         }
+    }
+    public void LoadCreditScene()
+    {
+        SceneManager.LoadScene("CreditScene");
     }
     private void HandleTutorialSceneLoad()
     {
