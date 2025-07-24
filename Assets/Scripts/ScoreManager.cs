@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -55,10 +56,6 @@ public class ScoreManager : MonoBehaviour
             {
                 ResetCombo();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log(LevelNumber);
         }
     }
 
