@@ -204,9 +204,8 @@ public class ScoreManager : MonoBehaviour
     }
     private void HandleGameVictory()
     {
-        Debug.Log(LevelNumber);
         LevelNumber += 1;
-        Debug.Log(LevelNumber);
+        lives += 10;
     }
     private void PlayComboAnimation()
     {

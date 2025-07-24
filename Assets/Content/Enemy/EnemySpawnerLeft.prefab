@@ -50,16 +50,12 @@ MonoBehaviour:
   enemySpawnDatas:
   - IndividualEnemySpawns:
     - enemyType: 0
-      AmountOfEntries: 4
-    - enemyType: 1
-      AmountOfEntries: 2
+      AmountOfEntries: 1
     BeatsPerSpawn: 6
   - IndividualEnemySpawns:
     - enemyType: 0
-      AmountOfEntries: 4
-    - enemyType: 1
       AmountOfEntries: 2
-    - enemyType: 2
+    - enemyType: 1
       AmountOfEntries: 1
     BeatsPerSpawn: 6
   - IndividualEnemySpawns:

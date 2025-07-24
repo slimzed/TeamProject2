@@ -6,6 +6,7 @@ using TMPro;
 public class DanteDialogueController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textComponent;
+    [SerializeField] private AudioSource source;
     public string[] dialogueLines;
     public float typingSpeed;
     private int currentLineIndex = 0;
@@ -43,6 +44,7 @@ public class DanteDialogueController : MonoBehaviour
         foreach(char c in dialogueLines[currentLineIndex].ToCharArray()) // iterate through each character in the line and append it to the text component 
         {
             textComponent.text += c;
+            source.Play();
             yield return new WaitForSeconds(typingSpeed);
         }
     }

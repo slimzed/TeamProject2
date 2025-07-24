@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
         {
             if (nextIndex >= songBeatData.beats.Count && !IsInvoking("WinGame"))
             {
-                Invoke("WinGame", 1f);
+                OnGameVictory?.Invoke();
             }
             return;
         }
@@ -96,10 +96,5 @@ public class AudioManager : MonoBehaviour
             }
         }
         return currentBeat;
-    }
-
-    private void WinGame()
-    {
-        OnGameVictory?.Invoke();
     }
 }

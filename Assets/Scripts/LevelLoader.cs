@@ -41,6 +41,10 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadTutorialScene()
     {
+        Invoke("HandleTutorialSceneLoad", 0.2f); // slight delay to ensure the scene is loaded properly
+    }
+    private void HandleTutorialSceneLoad()
+    {
         SceneManager.LoadScene("Tutorial");
     }
     public void QuitGame()
