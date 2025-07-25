@@ -313,7 +313,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Director: Donovan '
+  m_text: 'Director: Danwoo '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ad79afca323200439a980ed01c6c9c8, type: 2}
   m_sharedMaterial: {fileID: -7706210803620275211, guid: 9ad79afca323200439a980ed01c6c9c8, type: 2}
@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Game Designer: Danwoo'
+  m_text: 'Game Designer: Donovan'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ad79afca323200439a980ed01c6c9c8, type: 2}
   m_sharedMaterial: {fileID: -7706210803620275211, guid: 9ad79afca323200439a980ed01c6c9c8, type: 2}

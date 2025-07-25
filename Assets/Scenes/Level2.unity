@@ -650,7 +650,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -171.65277, w: 0}
+  m_margin: {x: 0, y: 0, z: -204.8713, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lives: '
+  m_text: 'Lives: 25'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8043ef8d815fb6143bef8eea3661cc93, type: 2}
   m_sharedMaterial: {fileID: -7679829226022675803, guid: 8043ef8d815fb6143bef8eea3661cc93, type: 2}

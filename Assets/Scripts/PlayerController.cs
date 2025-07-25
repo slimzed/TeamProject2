@@ -30,7 +30,6 @@ public class NewBehaviourScript : MonoBehaviour
     private List<EnemyController> collidedEnemies = new List<EnemyController>();
     private EnemyController currentEnemy;
 
-    private bool isRight = false;
     private bool isEnemyRight = false;
     private bool isHitStop = false;
     private bool canCombo = false;
@@ -112,12 +111,10 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if ( Input.GetKeyDown(KeyCode.D))
         {
-            isRight = true;
             gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = true;
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            isRight = false;
             gameObject.transform.Find("PlayerSprite").GetComponent<SpriteRenderer>().flipX = false;
         }
     }
@@ -127,7 +124,7 @@ public class NewBehaviourScript : MonoBehaviour
         collidedEnemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
 
         // Handle overflow
-        if (collidedEnemies.Count > 3)
+        if (collidedEnemies.Count > 2)
         {
             if (collidedEnemies[0] != null)
             {
@@ -198,6 +195,7 @@ public class NewBehaviourScript : MonoBehaviour
 
                             ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
                             currentEnemy.KillEnemy(true); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
+                            isEnemyRight = !isEnemyRight;
 
                             if (collidedEnemies.Count > 1)
                             {
