@@ -151,12 +151,7 @@ public class ScoreManager : MonoBehaviour
             Score += comboScore;
         }
 
-
-        if (Score <= 0)
-        {
-            Score = 0;
-            OnGameOver?.Invoke();
-        } else if (Score >= 6500)
+        if (Score >= 5000)
         {
             OnGameVictory?.Invoke();
         }

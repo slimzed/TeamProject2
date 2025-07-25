@@ -196,8 +196,6 @@ public class NewBehaviourScript : MonoBehaviour
                         {
                             Debug.Log("Full combo executed! Killing enemy");
 
-                            Invoke("FlipPlayerSpriteAfterComboEnd", 0.35f);
-
                             ScoreManager.Instance.AddToScore(currentEnemy.scoreValue);
                             currentEnemy.KillEnemy(true); // we are already added passing in the added scoreValue into ScoreManager, where it is multiplied by the combo multiplier
 
