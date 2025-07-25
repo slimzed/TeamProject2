@@ -739,19 +739,23 @@ MonoBehaviour:
   textComponent: {fileID: 274998687}
   source: {fileID: 288087632}
   dialogueLines:
-  - 'Dante27: Hello?'
-  - '8347M4573R: W31C0M3 70 8347'
-  - "Dante27: That doesn\u2019t sound like what I was promised."
-  - 'Dante27: Why are you messaging me? '
-  - 'Dante27: Did you upload this sim? '
-  - '8347M4573R: 50 M4NY QU35710N5 '
-  - '8347M4573R: Y0U W111 83 73573D  '
-  - "Dante27: Stop typing like that it\u2019s not cool "
-  - '8347M4573R: W3 W11 533 1F Y0U 4R3 W0R7HY '
-  - 'Dante27: The hell is this? '
-  - "Dante27: Why can\u2019t I log off "
-  - 'Dante27: GOD DAMMIT WHAT DID YOU DO '
-  - '8347M4573R: Y0UV3 833N H4D ;) '
+  - "Anonymous: You\u2019ve been had "
+  - 'Dante27: I KNOW '
+  - 'Dante27: WHO THE HELL ARE YOU '
+  - 'Anonymous: Calm down '
+  - "Anonymous: I\u2019m not with Mx. 1337 H4X0R "
+  - 'Dante27: Okay '
+  - 'Dante27: Question still stands '
+  - 'Anonymous: A concerned third party '
+  - "Dante27: Well if you\u2019re so concerned, can you tell me why I can't log off? "
+  - "Dante27: I\u2019ve been stuck for hours"
+  - "Anonymous: I know. I also know this sim isn\u2019t what you were promised when
+    you accessed it. "
+  - "Anonymous: I\u2019ve been tracking everyone who does "
+  - 'Dante27: Can you help me then?'
+  - '8347M4573R JOINED THE CHAT '
+  - '8347M4573R: H01D 7H47 7H0UGH7 ;) '
+  - 'Dante27: dammit '
   typingSpeed: 0.05
 --- !u!114 &782001737
 MonoBehaviour:

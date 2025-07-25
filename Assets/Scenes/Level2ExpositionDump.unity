@@ -1069,23 +1069,23 @@ MonoBehaviour:
   textComponent: {fileID: 811532638}
   source: {fileID: 659800367}
   dialogueLines:
-  - "Anonymous: You\u2019ve been had "
-  - 'Dante27: I KNOW '
-  - 'Dante27: WHO THE HELL ARE YOU '
-  - 'Anonymous: Calm down '
-  - "Anonymous: I\u2019m not with Mx. 1337 H4X0R "
-  - 'Dante27: Okay '
-  - 'Dante27: Question still stands '
-  - 'Anonymous: A concerned third party '
-  - "Dante27: Well if you\u2019re so concerned, can you tell me why I can't log off? "
-  - "Dante27: I\u2019ve been stuck for hours "
-  - "Anonymous: I know. I also know this sim isn\u2019t what you were promised when
-    you accessed it. "
-  - "Anonymous: I\u2019ve been tracking everyone who does "
-  - 'Dante27: Can you help me then? '
-  - '8347M4573R JOINED THE CHAT '
-  - '8347M4573R: H01D 7H47 7H0UGH7 ;) '
-  - 'Dante27: dammit '
+  - 'Started chat with Anonymous '
+  - 'Dante27: What even is this sim  '
+  - 'Dante27: There are like. Enemies. Like an rpgsim or something. '
+  - 'Anonymous: I can see that '
+  - 'Anonymous: Regarding your question from before, '
+  - "Anonymous: I\u2019m trying "
+  - 'Dante27: How? '
+  - "Anonymous: That\u2019s the problem. I don\u2019t know how. "
+  - "Anonymous: This isn\u2019t just a trojan, there\u2019s professional grade security
+    measures in place "
+  - 'Anonymous: Best I can do for you right now is a nutrient IV to keep you from
+    dying '
+  - 'Dante27: Wait how the hell are you doing that '
+  - 'Anonymous: I traced your location when you first accessed the sim '
+  - 'Dante27: wait '
+  - 'Dante27: YOU BROKE INTO MY APARTMENT? '
+  - 'Anonymous: Sorry. '
   typingSpeed: 0.05
 --- !u!114 &2064422138
 MonoBehaviour:
